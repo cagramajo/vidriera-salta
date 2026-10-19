@@ -1,5 +1,5 @@
 ---
-status: esperando Gate 1
+status: pendiente
 depends_on: []
 ---
 
@@ -9,7 +9,7 @@ Construir la landing de Vidriera Salta tal como está diseñada, con el formular
 comercios y vecinos y guarda cada lead en Supabase. Esta spec deja todo listo y probado en local;
 crear la base real y publicar en Vercel es la spec 002.
 
-**Tipo:** feature · **Flujo:** requirements-first
+**Tipo:** feature · **Flujo:** requirements-first · **Gate 1:** aprobada por Edu el 2026-10-18
 
 ## Estado previo
 
