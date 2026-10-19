@@ -1,5 +1,5 @@
 ---
-status: pendiente
+status: implementada
 depends_on: []
 ---
 
@@ -121,3 +121,36 @@ Ninguno. Todo corre en local; no se crea la base, no se publica nada y no se man
 | Clasificados de vecinos | Comercios publicando con regularidad (PRD) |
 | Panel para ver los leads | Más de 30 leads, o que Edu lo pida: hasta entonces, el dashboard de Supabase |
 | Dominio propio | Primer pack cobrado |
+
+## Evidencia
+
+Salida completa de `evals/run.sh` sobre el commit de la implementación (Node v22.20.0, sin variables de Supabase):
+
+```
+PASS C1 npm ci && npm run build sale con 0
+PASS C2 npm test sale con 0
+     |       Tests  21 passed (21)
+PASS C9 tests de normalizarFuente
+     |       Tests  13 passed (13)
+PASS C10 RLS activada, insert para anon, ninguna otra policy
+PASS C11 sin .env versionado ni secretos (specs excluida: nombra el patrón en su texto)
+PASS C3 la página contiene las 15 cadenas del handoff
+PASS C4 name= de los 5 campos y un label for= por cada campo visible
+PASS C5 el CSS compilado contiene los 5 colores Yungas
+     | sin-consentimiento -> 400
+     | consentimiento-false -> 400
+     | email-sin-arroba -> 400
+     | nombre-vacio -> 400
+     | tipo-invalido -> 400
+PASS C6 los 5 casos inválidos responden 400
+     | status 200, cuerpo {"ok":true}
+PASS C7 la trampa responde 200 {"ok":true}
+     | status 503
+PASS C8 lead válido sin base responde 503
+PASS C12 a 390 px: scrollWidth=390
+12 pasan · 0 fallan
+```
+
+C13: capturas en `docs/research/2026-10-18-capturas/landing-390.png` y `landing-1440.png` (`npm run capturas`). La rúbrica la aplica Edu en Gate 2.
+
+Decisiones tomadas bajo los criterios delegados: ver `decisions.md` (5 entradas del 2026-10-18).
