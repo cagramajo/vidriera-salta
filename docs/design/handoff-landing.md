@@ -111,7 +111,7 @@ corchetes: es un ejemplo, no un comercio real.
      barrio." (vecino), con `role="status"`.
 8. **Pie** (fondo `--sombra`, texto `--niebla`). "VIDRIERA SALTA" + "Privacidad: guardamos tu nombre
    y tu email solo para contactarte por Vidriera Salta. Para pedir que los borremos, escribinos a
-   [EMAIL DE CONTACTO]."
+   echarly02@gmail.com." El email es un link `mailto:`.
 
 ## Comportamiento en celular
 
