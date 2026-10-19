@@ -534,9 +534,19 @@ input:focus-visible {
 
 .zona__calle--v {
   top: 0;
-  bottom: 0;
+  height: calc(50% + 7px);
   left: calc(50% - 7px);
   width: 14px;
+}
+
+/* Debajo del cruce, Rosas es una calle común de la cuadrícula */
+.zona__calle-comun {
+  position: absolute;
+  top: calc(50% + 7px);
+  bottom: 0;
+  left: calc(50% - 2px);
+  width: 4px;
+  background: var(--calle-manzana);
 }
 
 .zona__nombre {

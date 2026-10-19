@@ -32,3 +32,22 @@
 **Qué se decide**: se fijan las últimas versiones estables al implementar (ver `package-lock.json`); incluye TypeScript 7.0.2.
 **Por qué**: la spec delega la elección a la última estable de cada una y la compilación (C1) pasa con ellas.
 **La invalidaría**: que una herramienta de Next.js deje de funcionar con TypeScript 7.
+
+## 2026-10-18 · [spec 002] Las listas de C3, C6 y C7 viven en `evals/casos.sh` y las leen `run.sh` y `prod.sh`
+
+**Qué se decide**: las 15 cadenas, los 5 casos inválidos y la trampa se definen una vez en `evals/casos.sh`; los dos scripts lo cargan con `.`.
+**Por qué**: la spec pide que los chequeos de producción no dupliquen las listas de local; una sola fuente evita que diverjan.
+**La invalidaría**: que producción necesite casos o cadenas distintas de las de local.
+
+## 2026-10-18 · [spec 002] P6/P7 se evalúan en dos pasos: el script manda y la sesión del brain cuenta
+
+**Qué se decide**: `evals/prod.sh` manda el lead y su repetición e imprime el email y la consulta; el conteo vuelve por `PRUEBA_EMAIL` y `LEADS_COUNT` en una segunda corrida que no manda nada. P8 recibe `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` por variable de entorno.
+**Por qué**: contar filas exige leer la base, y el repo no puede tener ninguna clave (C11); la sesión del brain tiene la conexión y pasa el resultado como parámetro. Lo que falta queda como PEND, que no cuenta como falla pero tampoco como pasa.
+**La invalidaría**: que la tabla gane una policy de select acotada que permita contar con la clave pública.
+
+## 2026-10-18 · [spec 002] El mapa de la zona rota las calles; debajo del cruce, Rosas es una línea común de la cuadrícula
+
+**Qué se decide**: Felipe Varela horizontal y J. M. de Rosas vertical; Rosas remarcada solo del borde de arriba al cruce, y debajo una línea de 4 px del color de la cuadrícula. `landing.dc.html` (diseño fuente) no se toca y queda con el mapa anterior.
+**Por qué**: lo decidió Edu el 2026-10-18 (P13) y gana sobre el handoff; la línea común mantiene la continuidad de Rosas sin remarcarla.
+**Reemplaza a**: la descripción del mapa en `docs/design/handoff-landing.md` de la spec 001.
+**La invalidaría**: que la rúbrica de Edu rechace el mapa o que la calle real tenga otro trazado.

@@ -15,14 +15,15 @@ export function Neighbors() {
         </div>
         <figure
           role="img"
-          aria-label="Esquema de la zona: 5 cuadras alrededor de la esquina de Juan Manuel de Rosas y Felipe Varela"
+          aria-label="Esquema de la zona: 5 cuadras alrededor de la esquina de Felipe Varela (calle horizontal) y Juan Manuel de Rosas (calle vertical)"
           className="zona"
         >
           <div className="zona__mapa">
             <div className="zona__calle zona__calle--h" />
             <div className="zona__calle zona__calle--v" />
-            <span className="zona__nombre zona__nombre--h">J. M. de Rosas</span>
-            <span className="zona__nombre zona__nombre--v">Felipe Varela</span>
+            <div className="zona__calle-comun" />
+            <span className="zona__nombre zona__nombre--h">Felipe Varela</span>
+            <span className="zona__nombre zona__nombre--v">J. M. de Rosas</span>
             <span className="zona__punto" />
           </div>
           <figcaption className="zona__pie">5 cuadras para cada lado de la esquina. Esquema, no a escala.</figcaption>

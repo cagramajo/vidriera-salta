@@ -1,5 +1,5 @@
 ---
-status: en curso
+status: implementada
 depends_on: [001]
 ---
 
@@ -86,3 +86,73 @@ pública. Al terminar, un lead que se deja en esa URL queda guardado en la base.
 | Dominio propio | Primer pack cobrado |
 | Panel para ver los leads | Más de 30 leads, o que Edu lo pida |
 | Base en las previews de ramas | Que una spec necesite probar con datos en una rama |
+
+
+## Evidencia (parte C, rama `spec-002`)
+
+`evals/run.sh` en local (sin regresión):
+
+```
+PASS C1 npm ci && npm run build sale con 0
+PASS C2 npm test sale con 0
+     |       Tests  21 passed (21)
+PASS C9 tests de normalizarFuente
+     |       Tests  13 passed (13)
+PASS C10 RLS activada, insert para anon, ninguna otra policy
+PASS C11 sin .env versionado ni secretos (specs excluida: nombra el patrón en su texto)
+PASS C3 la página contiene las 15 cadenas del handoff
+PASS C4 name= de los 5 campos y un label for= por cada campo visible
+PASS C5 el CSS compilado contiene los 5 colores Yungas
+     | sin-consentimiento -> 400
+     | consentimiento-false -> 400
+     | email-sin-arroba -> 400
+     | nombre-vacio -> 400
+     | tipo-invalido -> 400
+PASS C6 los 5 casos inválidos responden 400
+     | status 200, cuerpo {"ok":true}
+PASS C7 la trampa responde 200 {"ok":true}
+     | status 503
+PASS C8 lead válido sin base responde 503
+PASS C12 a 390 px: scrollWidth=390
+12 pasan · 0 fallan
+```
+
+`evals/prod.sh`, paso 1 (contra https://vidriera-salta.vercel.app, 2026-10-18; P8 con la clave pública por variable de entorno):
+
+```
+Externos (los verifica la sesión del brain con sus conexiones, no este script): P1 P2 P3 P9 P10. P12 y P13 los aplica Edu.
+PASS P4 https://vidriera-salta.vercel.app responde 200 y contiene las 15 cadenas de C3
+     | sin-consentimiento -> 400
+     | consentimiento-false -> 400
+     | email-sin-arroba -> 400
+     | nombre-vacio -> 400
+     | tipo-invalido -> 400
+     | trampa -> 200 {"ok":true}
+PASS P5 5 casos inválidos → 400 y la trampa → 200 {"ok":true}
+     | email de prueba: prueba-auto-1792375735@example.com
+     | primer envío -> 200 {"ok":true} · repetición -> 200 {"ok":true}
+PEND P6/P7 envíos 200 y 200. Falta el conteo: select count(*) from leads where email = 'prueba-auto-1792375735@example.com';  (debe dar 1). Después: PRUEBA_EMAIL=prueba-auto-1792375735@example.com LEADS_COUNT=<n> evals/prod.sh
+     | status 200, cuerpo []
+PASS P8 la tabla no se lee con la clave pública: []
+PASS P11 a 390 px: scrollWidth=390
+4 pasan · 0 fallan · 1 pendientes
+```
+
+`evals/prod.sh`, paso 2 (conteo informado por la sesión del brain: 1; este paso no manda ni corre P8/P11, que ya pasaron en el paso 1):
+
+```
+Externos (los verifica la sesión del brain con sus conexiones, no este script): P1 P2 P3 P9 P10. P12 y P13 los aplica Edu.
+     | email de prueba: prueba-auto-1792375735@example.com
+PASS P6 el lead quedó guardado y P7 la repetición no lo duplicó: conteo = 1 para prueba-auto-1792375735@example.com
+1 pasan · 0 fallan · 0 pendientes
+```
+
+Externos, verificados por la sesión del brain el 2026-10-18:
+
+- P1: proyecto `vidriera-salta`, `sa-east-1`, `ACTIVE_HEALTHY`.
+- P2: `public.leads` con RLS activada; migración `001_leads` listada.
+- P3: advisors de seguridad sin avisos.
+- P9: variables de Vercel `SUPABASE_URL` y `SUPABASE_ANON_KEY`, solo target production, encriptadas; la clave es la pública (publishable). `git grep` de `eyJ…`, `service_role`, `sb_secret_` y `sb_publishable_` fuera de `specs/` no devuelve nada en la rama.
+- P10: proyecto enlazado a GitHub `cagramajo/vidriera-salta`, `productionBranch=main`.
+- P12 y la rúbrica de P13: pendientes, las aplica Edu en el Gate 2.
+- P13: capturas `docs/research/2026-10-18-capturas/landing-390.png` y `landing-1440.png` para la rúbrica de Edu; parte determinista: `docs/design/handoff-landing.md` describe Felipe Varela horizontal y J. M. de Rosas vertical, remarcada solo arriba del cruce. Producción todavía sirve el mapa anterior hasta que se mergee.
