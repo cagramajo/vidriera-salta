@@ -6,7 +6,6 @@
   --sombra: #12241a;
   --blanco: #ffffff;
   --texto-suave: #46554b;
-  --calle-manzana: #d9d2c3;
 }
 
 *,
@@ -508,75 +507,54 @@ input:focus-visible {
 }
 
 .zona__mapa {
-  position: relative;
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  aspect-ratio: 1740 / 860;
   background-color: var(--blanco);
-  background-image: repeating-linear-gradient(0deg, transparent 0 34px, var(--calle-manzana) 34px 38px),
-    repeating-linear-gradient(90deg, transparent 0 34px, var(--calle-manzana) 34px 38px);
   border: 3px dashed var(--sombra);
   border-radius: 8px;
   overflow: hidden;
 }
 
-.zona__calle {
-  position: absolute;
-  background: var(--sombra);
+.zona__mapa svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.zona__calle--h {
-  left: 0;
-  right: 0;
-  top: calc(50% - 7px);
-  height: 14px;
+.zona__borde {
+  fill: var(--niebla);
+  stroke: var(--monte);
+  stroke-width: 12;
+  stroke-dasharray: 34 20;
+  stroke-linejoin: round;
 }
 
-.zona__calle--v {
-  top: 0;
-  height: calc(50% + 7px);
-  left: calc(50% - 7px);
-  width: 14px;
+.zona__trazo {
+  stroke: #f59bbe;
+  stroke-width: 30;
+  stroke-linecap: round;
 }
 
-/* Debajo del cruce, Rosas es una calle común de la cuadrícula */
-.zona__calle-comun {
-  position: absolute;
-  top: calc(50% + 7px);
-  bottom: 0;
-  left: calc(50% - 2px);
-  width: 4px;
-  background: var(--calle-manzana);
+.zona__rotulo,
+.zona__rotulo-borde {
+  font-family: var(--fuente-archivo), Arial, sans-serif;
+  paint-order: stroke;
+  stroke: #fff;
 }
 
-.zona__nombre {
-  position: absolute;
+.zona__rotulo {
   font-weight: 800;
-  font-size: 14px;
-  background: var(--niebla);
-  padding: 2px 6px;
-  border-radius: 4px;
+  font-size: 50px;
+  fill: var(--sombra);
+  stroke-width: 14px;
 }
 
-.zona__nombre--h {
-  left: 10px;
-  top: calc(50% - 38px);
-}
-
-.zona__nombre--v {
-  left: calc(50% + 14px);
-  top: 10px;
-}
-
-.zona__punto {
-  position: absolute;
-  left: calc(50% - 18px);
-  top: calc(50% - 18px);
-  width: 36px;
-  height: 36px;
-  background: var(--lapacho);
-  border: 3px solid var(--blanco);
-  border-radius: 50%;
+.zona__rotulo-borde {
+  font-weight: 700;
+  font-size: 50px;
+  fill: var(--monte);
+  stroke-width: 12px;
 }
 
 .zona__pie {

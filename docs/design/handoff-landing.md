@@ -60,7 +60,7 @@ corchetes: es un ejemplo, no un comercio real.
 1. **Encabezado** (fondo `--niebla`, borde inferior 2 px). Logo: cuadrado 40 px `--monte` con "V"
    + "VIDRIERA SALTA". Links: "Para comercios" (#comercios), "Para vecinos" (#vecinos). Botón
    principal "Sumá tu comercio" (#formulario, preselecciona comercio).
-2. **Inicio** (fondo `--monte`, texto `--niebla`). Etiqueta: "A 5 cuadras de Juan Manuel de Rosas y
+2. **Inicio** (fondo `--monte`, texto `--niebla`). Etiqueta: "A pocas cuadras de Juan Manuel de Rosas y
    Felipe Varela". H1: "El cartel de tu vereda, en el celular de todo el barrio". Bajada:
    "Publicidad para los comercios chicos del barrio. Nos contás tu oferta, la escribimos con IA a tu
    estilo, y les llega a los vecinos el día que vos elijas." Botones: "Sumá tu comercio — primer mes
@@ -90,13 +90,16 @@ corchetes: es un ejemplo, no un comercio real.
    - "Pack 3 meses" / "$10.000" (en `--monte`) / "Lo mismo, tres meses, por menos."
 6. **Vecinos y zona** (id `vecinos`). Etiqueta "Para vecinos" (`--monte`). H2: "Enterate de lo que
    hay a la vuelta". Texto: "Las ofertas del almacén, la carnicería y los comercios de tu barrio, en
-   un solo lugar. Sin buscar en grupos, sin publicidad de toda la ciudad: solo lo que tenés a 5
-   cuadras." Botón oscuro "Avisame cuando arranque" (preselecciona vecino). Esquema de la zona:
-   cuadrado con cuadrícula de manzanas, dos calles que se cruzan: "Felipe Varela" horizontal, negra de
-   punta a punta; "J. M. de Rosas" vertical, negra solo desde el borde de arriba hasta el cruce (debajo
-   del cruce se ve como una calle común de la cuadrícula); cada nombre pegado a su calle; punto `--lapacho` en el cruce, borde discontinuo; pie:
-   "5 cuadras para cada lado de la esquina. Esquema, no a escala." Con `role="img"` y
-   `aria-label` descriptivo.
+   un solo lugar. Sin buscar en grupos, sin publicidad de toda la ciudad: solo lo que tenés a pocas
+   cuadras." Botón oscuro "Avisame cuando arranque" (preselecciona vecino). Mapa de la zona: dibujo propio, aprobado
+   por Edu, en `docs/design/mapa-zona.svg` (fuente de verdad), insertado inline como `<svg>` con
+   `role="img"` y `aria-label` que nombra Juan Manuel de Rosas y Felipe Varela. Recuadro apaisado
+   (1740 × 860), borde discontinuo `--sombra`, fondo blanco. Contorno de la zona punteado `--monte`
+   con relleno `--niebla`, sin cuadrícula ni lugares de referencia. Felipe Varela y "J. M. de Rosas"
+   en lapacho claro (#F59BBE), Rosas solo desde Joaquín V. González hasta el cruce; punto lapacho
+   claro en el cruce. Nombres de las calles principales (Archivo 800) y del borde, abreviados (Archivo 700, 50 unidades
+   del dibujo, unos 10 px a 390 px): J. V. González, Castillo, Á. Vargas, Chalimín, Fortín Cerrillos. Pie:
+   "La zona de Vidriera Salta, a pocas cuadras del cruce. Esquema, no a escala."
 7. **Formulario** (id `formulario`; fondo `--monte`). H2: "Dejanos tus datos". Tarjeta `--niebla`
    con sombra lapacho:
    - Selector de dos botones con `aria-pressed`: "Tengo un comercio" / "Soy vecino" (el elegido,
