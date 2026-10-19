@@ -138,7 +138,21 @@ PASS P11 a 390 px: scrollWidth=390
 4 pasan · 0 fallan · 1 pendientes
 ```
 
-- P6/P7: **pendiente del paso 2 de la sesión del brain**: correr `select count(*) from leads where email = 'prueba-auto-1792375735@example.com';` (debe dar 1) y luego `PRUEBA_EMAIL=prueba-auto-1792375735@example.com LEADS_COUNT=<n> evals/prod.sh`.
-- P1, P2, P3, P9, P10: externos, los verifica la sesión del brain.
-- P12: lo hace Edu a mano.
+`evals/prod.sh`, paso 2 (conteo informado por la sesión del brain: 1; este paso no manda ni corre P8/P11, que ya pasaron en el paso 1):
+
+```
+Externos (los verifica la sesión del brain con sus conexiones, no este script): P1 P2 P3 P9 P10. P12 y P13 los aplica Edu.
+     | email de prueba: prueba-auto-1792375735@example.com
+PASS P6 el lead quedó guardado y P7 la repetición no lo duplicó: conteo = 1 para prueba-auto-1792375735@example.com
+1 pasan · 0 fallan · 0 pendientes
+```
+
+Externos, verificados por la sesión del brain el 2026-10-18:
+
+- P1: proyecto `vidriera-salta`, `sa-east-1`, `ACTIVE_HEALTHY`.
+- P2: `public.leads` con RLS activada; migración `001_leads` listada.
+- P3: advisors de seguridad sin avisos.
+- P9: variables de Vercel `SUPABASE_URL` y `SUPABASE_ANON_KEY`, solo target production, encriptadas; la clave es la pública (publishable). `git grep` de `eyJ…`, `service_role`, `sb_secret_` y `sb_publishable_` fuera de `specs/` no devuelve nada en la rama.
+- P10: proyecto enlazado a GitHub `cagramajo/vidriera-salta`, `productionBranch=main`.
+- P12 y la rúbrica de P13: pendientes, las aplica Edu en el Gate 2.
 - P13: capturas `docs/research/2026-10-18-capturas/landing-390.png` y `landing-1440.png` para la rúbrica de Edu; parte determinista: `docs/design/handoff-landing.md` describe Felipe Varela horizontal y J. M. de Rosas vertical, remarcada solo arriba del cruce. Producción todavía sirve el mapa anterior hasta que se mergee.
