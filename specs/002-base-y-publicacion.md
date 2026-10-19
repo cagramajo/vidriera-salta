@@ -1,5 +1,5 @@
 ---
-status: pendiente
+status: en curso
 depends_on: [001]
 ---
 
@@ -14,7 +14,8 @@ pública. Al terminar, un lead que se deja en esa URL queda guardado en la base.
 
 - `main` en `e5045a3`: la landing de la spec 001 completa, 12/12 evals en local.
   `supabase/migrations/001_leads.sql` escrita y sin aplicar. Sin variables, `POST /api/leads` responde 503.
-- Supabase (2026-10-18): organización "Vidriera Salta" (`pgxqrrjmewvzmfrbahim`), sin proyectos.
+- Hecho por la sesión del brain el 2026-10-18 (partes A y B): proyecto Supabase `vidriera-salta` (`lywucenqxjqjxfzrzrth`, `https://lywucenqxjqjxfzrzrth.supabase.co`) con `001_leads` aplicada; proyecto Vercel `vidriera-salta` en el equipo `vidriera-tech`, enlazado al repo, publicado en **https://vidriera-salta.vercel.app**. P1, P2, P3 y P8 verificados por la sesión del brain.
+- Supabase (antes de la parte A): organización "Vidriera Salta" (`pgxqrrjmewvzmfrbahim`), sin proyectos.
 - Vercel (2026-10-18): cuenta personal, sin equipos ni proyectos.
 - Repo público: https://github.com/cagramajo/vidriera-salta
 
@@ -24,7 +25,7 @@ pública. Al terminar, un lead que se deja en esa URL queda guardado en la base.
 |---|---|---|
 | A. Crear el proyecto Supabase y aplicar la migración | Sesión del brain (conexión Supabase), después del Gate 1 | Supabase |
 | B. Proyecto Vercel conectado al repo, variables de entorno, primera publicación | Sesión del brain (conexión Vercel), con OK de Edu en el momento de publicar | Vercel |
-| C. Evals contra la URL pública, `ARCHITECTURE.md`, `decisions.md` | Agente `complete-spec`, en su worktree, rama `spec-002` | Repo |
+| C. Evals contra la URL pública, mapa de la zona (P13), `ARCHITECTURE.md`, `decisions.md` | Agente `complete-spec`, en su worktree, rama `spec-002` | Repo |
 | D. Pruebas a mano (P12) | Edu | Celular y panel de Supabase |
 
 ## Criterios de aceptación
@@ -46,6 +47,7 @@ pública. Al terminar, un lead que se deja en esa URL queda guardado en la base.
 | P10 | Cada merge a `main` se publica solo | `get_project`: enlazado a `cagramajo/vidriera-salta`, rama de producción `main` |
 | P11 | En celular se ve bien en producción | Playwright a 390 px sobre `$PROD_URL`: `scrollWidth <= 390` |
 | P12 | Edu lo prueba a mano | **Rúbrica** (sí/no cada punto, con emails que empiezan con `prueba-`): (a) desde el celular, la URL carga y se ve como el diseño; (b) anotarse como comercio con `?fuente=volante` → confirmación de comercio; (c) como vecino → confirmación de vecino; (d) repetir un email → la misma confirmación, sin error; (e) en el panel de Supabase están sus filas con `tipo` y `fuente` correctos; (f) el link compartido por WhatsApp abre bien |
+| P13 | El mapa de la zona muestra el cruce como es | **Rúbrica** (la aplica Edu en Gate 2 sobre las capturas de `npm run capturas` a 390 y 1440 px, sí/no cada punto): (a) Felipe Varela es la calle horizontal, remarcada de punta a punta; (b) J. M. de Rosas es la calle vertical, remarcada solo desde el borde de arriba hasta el cruce; (c) debajo del cruce, Rosas se ve como una calle común de la cuadrícula; (d) cada nombre está pegado a su calle; (e) el punto lapacho sigue en el cruce. Además, determinista: `docs/design/handoff-landing.md` describe Felipe Varela horizontal y J. M. de Rosas vertical, remarcada solo arriba del cruce |
 
 ## Decisiones
 
@@ -55,6 +57,7 @@ pública. Al terminar, un lead que se deja en esa URL queda guardado en la base.
 - DECIDIDO por Edu (2026-10-18): Vercel conectado al repo de GitHub, con publicación automática desde `main`.
 - DECIDIDO por Edu (2026-10-18): los leads de prueba no se borran al terminar; quedan para sus pruebas y se limpian cuando él lo pida (`delete from leads where email like 'prueba-%'`).
 - DECIDIDO por Edu (2026-10-18): crear la base y publicar lo hace la sesión del brain; el repo, un agente en rama.
+- DECIDIDO por Edu (2026-10-18, después del Gate 1): el mapa de la zona se rota — Felipe Varela horizontal, J. M. de Rosas vertical y remarcada solo desde arriba hasta el cruce; abajo es calle común. Se suma a esta spec como P13. Gana sobre lo que decía el handoff.
 - DECIDIDO por Edu (2026-10-18): las variables solo en Production; las previews de ramas quedan sin base (el formulario responde 503 ahí).
 
 ### Delegadas al agente, con su criterio
