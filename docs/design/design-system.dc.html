@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Vidriera Salta — design system mínimo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1280px; height: 1500px; box-sizing: border-box; padding: 64px; background: #EEF3EA; color: #12241A; font-family: 'Archivo', system-ui, sans-serif; font-size: 17px; line-height: 1.5; display: flex; flex-direction: column; gap: 56px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 900; font-stretch: 68%; font-size: 72px; line-height: 1; text-transform: uppercase">Vidriera Salta</span>
+<span style="font-size: 20px; max-width: 760px">Design system mínimo. La idea: el cartel de la vereda del almacén, en digital. Paleta Yungas: el verde del monte manda, con el rosado del lapacho en flor como acento, sobre niebla.</span>
+</div>
+
+<!-- Colores -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<span style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">3 colores + la niebla</span>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; background: #12241A; border: 2px solid #12241A; border-radius: 8px"></div>
+<span style="font-weight: 800">Sombra</span><span style="font-size: 15px">#12241A · textos, bordes, fondos oscuros</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; background: #1F4D35; border: 2px solid #12241A; border-radius: 8px"></div>
+<span style="font-weight: 800">Monte</span><span style="font-size: 15px">#1F4D35 · el protagonista: inicio, formulario, precios. Texto niebla encima</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; background: #D63A73; border: 2px solid #12241A; border-radius: 8px"></div>
+<span style="font-weight: 800">Lapacho</span><span style="font-size: 15px">#D63A73 · acción principal y acentos. Texto sombra, 19 px o más · claro #F59BBE para textos chicos sobre oscuro</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 120px; background: #EEF3EA; border: 2px solid #12241A; border-radius: 8px"></div>
+<span style="font-weight: 800">Niebla</span><span style="font-size: 15px">#EEF3EA · fondo general</span>
+</div>
+</div>
+</div>
+
+<!-- Tipografía -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<span style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">1 tipografía: Archivo, en dos anchos</span>
+<div style="display: flex; gap: 48px; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 900; font-stretch: 68%; font-size: 88px; line-height: 0.95; text-transform: uppercase">Títulos de cartel</span>
+<span style="font-size: 15px">Archivo angosta, 900, en mayúsculas — como el cartel de la vereda</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
+<span style="font-size: 20px">Texto normal, claro y grande para leer en la vereda, desde el celular.</span>
+<span style="font-size: 15px">Archivo normal, 400–800, 17 px mínimo</span>
+</div>
+</div>
+</div>
+
+<!-- Componentes -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<span style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">4 componentes</span>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start">
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-weight: 800">1 · Botón</span>
+<button type="button" style="min-height: 52px; padding: 0 20px; background: #D63A73; color: #12241A; font: inherit; font-size: 19px; font-weight: 800; border: 2px solid #12241A; border-radius: 6px">Principal</button>
+<button type="button" style="min-height: 52px; padding: 0 20px; background: #EEF3EA; color: #12241A; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px">Secundario</button>
+<button type="button" style="min-height: 52px; padding: 0 20px; background: #12241A; color: #EEF3EA; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px">Sobre claro</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-weight: 800">2 · Publicación</span>
+<article aria-label="Ejemplo de publicación" style="background: #FFFFFF; border: 3px solid #12241A; border-radius: 8px; box-shadow: 6px 6px 0 #D63A73; transform: rotate(-2deg)">
+<div style="padding: 10px 14px; border-bottom: 2px dashed #12241A; font-weight: 800; font-size: 15px">Almacén [NOMBRE]</div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-weight: 900; font-stretch: 68%; font-size: 28px; line-height: 1; text-transform: uppercase">[PRODUCTO]</span>
+<span style="font-weight: 900; font-stretch: 68%; font-size: 44px; line-height: 1; color: #1F4D35">$[PRECIO]</span>
+</div>
+</article>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-weight: 800">3 · Tarjeta</span>
+<div style="padding: 20px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 26px; text-transform: uppercase">Título</span>
+<span style="font-size: 15px">Para explicar una idea: problema, paso o precio.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-weight: 800">4 · Campo</span>
+<label for="ds-email" style="font-weight: 700">Email</label>
+<input id="ds-email" type="email" placeholder="nombre@ejemplo.com" style="min-height: 48px; padding: 0 14px; font: inherit; background: #FFFFFF; color: #12241A; border: 2px solid #12241A; border-radius: 6px">
+<div style="display: flex; gap: 10px; align-items: flex-start">
+<input id="ds-ok" type="checkbox" style="width: 24px; height: 24px; margin: 0; accent-color: #1F4D35">
+<label for="ds-ok" style="font-size: 15px">Casilla de consentimiento</label>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Reglas -->
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">Reglas</span>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px">
+<li>Bordes de sombra de 2 px y esquinas de 6–8 px: todo parece recortado en cartulina.</li>
+<li>El lapacho es solo para la acción principal y los acentos. Nunca para decorar.</li>
+<li>Sombra lapacho sólida y desplazada, sin difuminar, solo en lo que se destaca (publicación, precio gratis).</li>
+<li>Botones de 44 px de alto como mínimo: se tocan con el dedo, en la vereda.</li>
+</ul>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

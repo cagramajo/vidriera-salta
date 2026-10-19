@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Vidriera Salta — landing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="container-type: inline-size; font-family: 'Archivo', system-ui, sans-serif; color: #12241A; background: #EEF3EA; min-height: 100%; font-size: 17px; line-height: 1.5">
+
+<!-- Encabezado -->
+<header style="border-bottom: 2px solid #12241A; background: #EEF3EA">
+<div style="max-width: 1200px; margin: 0 auto; padding: 16px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="#inicio" style="display: flex; align-items: center; gap: 10px; color: #12241A; text-decoration: none">
+<span style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #1F4D35; color: #EEF3EA; border: 2px solid #12241A; border-radius: 6px; font-weight: 900; font-stretch: 70%; font-size: 22px">V</span>
+<span style="font-weight: 900; font-stretch: 70%; font-size: 26px; letter-spacing: 0.01em; text-transform: uppercase">Vidriera Salta</span>
+</a>
+<nav aria-label="Secciones" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px">
+<a href="#comercios" style="color: #12241A; font-weight: 600; text-decoration: none; padding: 10px 0">Para comercios</a>
+<a href="#vecinos" style="color: #12241A; font-weight: 600; text-decoration: none; padding: 10px 0">Para vecinos</a>
+<a href="#formulario" onClick="{{ elegirComercio }}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; background: #D63A73; color: #12241A; font-weight: 800; font-size: 19px; text-decoration: none; border: 2px solid #12241A; border-radius: 6px">Sumá tu comercio</a>
+</nav>
+</div>
+</header>
+
+<!-- Hero -->
+<section id="inicio" style="background: #1F4D35; color: #EEF3EA; border-bottom: 2px solid #12241A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 64px 20px 72px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; display: inline-flex; align-self: flex-start; padding: 6px 12px; background: #EEF3EA; color: #1F4D35; font-weight: 700; font-size: 15px; border-radius: 4px">A 5 cuadras de Juan Manuel de Rosas y Felipe Varela</p>
+<h1 style="margin: 0; font-weight: 900; font-stretch: 68%; text-transform: uppercase; line-height: 0.95; font-size: clamp(44px, 7.4cqi, 104px); letter-spacing: -0.01em">El cartel de tu vereda, en el celular de todo el barrio</h1>
+<p style="margin: 0; font-size: 20px; max-width: 560px">Publicidad para los comercios chicos del barrio. Nos contás tu oferta, la escribimos con IA a tu estilo, y les llega a los vecinos el día que vos elijas.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#formulario" onClick="{{ elegirComercio }}" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #D63A73; color: #12241A; font-weight: 800; font-size: 19px; text-decoration: none; border: 2px solid #12241A; border-radius: 6px">Sumá tu comercio — primer mes gratis</a>
+<a href="#formulario" onClick="{{ elegirVecino }}" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #EEF3EA; color: #12241A; font-weight: 800; font-size: 19px; text-decoration: none; border: 2px solid #12241A; border-radius: 6px">Quiero ver las ofertas</a>
+</div>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 16px">
+<p style="margin: 0; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em">Así se ve una publicación</p>
+<article aria-label="Ejemplo de publicación" style="width: 100%; max-width: 380px; background: #FFFFFF; color: #12241A; border: 3px solid #12241A; border-radius: 8px; box-shadow: 8px 8px 0 #D63A73; transform: rotate(-2deg); display: flex; flex-direction: column">
+<div style="padding: 14px 18px; border-bottom: 2px dashed #12241A; display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-weight: 800">Carnicería [NOMBRE]</span>
+<span style="font-size: 14px; font-weight: 700; background: #F59BBE; padding: 2px 8px; border-radius: 4px">Solo hoy</span>
+</div>
+<div style="padding: 20px 18px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 900; font-stretch: 68%; text-transform: uppercase; font-size: 40px; line-height: 1">[PRODUCTO EN OFERTA]</span>
+<span style="font-weight: 900; font-stretch: 68%; font-size: 64px; line-height: 1; color: #1F4D35">$[PRECIO]<span style="font-size: 24px"> el kilo</span></span>
+<span style="font-size: 15px; color: #46554B">[Dirección] · a 2 cuadras de la esquina</span>
+</div>
+<a href="#formulario" style="margin: 0 18px 18px; display: inline-flex; justify-content: center; align-items: center; min-height: 44px; background: #12241A; color: #EEF3EA; font-weight: 800; text-decoration: none; border-radius: 6px">Escribile por WhatsApp</a>
+</article>
+</div>
+</div>
+</section>
+
+<!-- Problema -->
+<section aria-labelledby="problema-titulo" style="border-bottom: 2px solid #12241A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 32px">
+<h2 id="problema-titulo" style="margin: 0; font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 1; font-size: clamp(34px, 4.6cqi, 60px); max-width: 900px">Tu cartel solo lo ve quien pasa por la puerta</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+<div style="flex: 1 1 300px; min-width: 0; padding: 24px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 28px; text-transform: uppercase">La vereda</span>
+<p style="margin: 0">Sacás el cartel con tus precios y ofertas todos los días. Llega a los que pasan, nada más.</p>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; padding: 24px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 28px; text-transform: uppercase">Facebook</span>
+<p style="margin: 0">Publicás en el grupo y tu oferta se pierde entre cientos de posts de toda la ciudad.</p>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; padding: 24px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 28px; text-transform: uppercase">Las apps</span>
+<p style="margin: 0">Google Maps, Instagram, WhatsApp Business: todo existe, pero aprenderlo lleva un tiempo que no tenés.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Cómo funciona -->
+<section id="comercios" aria-labelledby="como-titulo" style="background: #12241A; color: #EEF3EA; border-bottom: 2px solid #12241A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; color: #F59BBE; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">Para comercios</p>
+<h2 id="como-titulo" style="margin: 0; font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 1; font-size: clamp(34px, 4.6cqi, 60px)">Nosotros hacemos el trabajo. Vos atendés.</h2>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 20px">
+<li style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; border: 2px solid #EEF3EA; border-radius: 8px">
+<span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #D63A73; color: #12241A; font-weight: 900; font-size: 26px; border-radius: 50%">1</span>
+<span style="font-weight: 800; font-size: 22px">Nos contás qué querés ofrecer</span>
+<span>Por WhatsApp o en persona. Una foto del cartel alcanza.</span>
+</li>
+<li style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; border: 2px solid #EEF3EA; border-radius: 8px">
+<span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #D63A73; color: #12241A; font-weight: 900; font-size: 26px; border-radius: 50%">2</span>
+<span style="font-weight: 800; font-size: 22px">La IA la escribe a tu estilo</span>
+<span>Tu publicación sale con la impronta de tu negocio. La ves antes de que se publique.</span>
+</li>
+<li style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; border: 2px solid #EEF3EA; border-radius: 8px">
+<span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #D63A73; color: #12241A; font-weight: 900; font-size: 26px; border-radius: 50%">3</span>
+<span style="font-weight: 800; font-size: 22px">Vos elegís el día y cuánto dura</span>
+<span>El día que la necesites, de 1 a 7 días. Tu ficha queda fija con dirección y contacto.</span>
+</li>
+</ol>
+</div>
+</section>
+
+<!-- Precios -->
+<section aria-labelledby="precios-titulo" style="border-bottom: 2px solid #12241A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 32px">
+<h2 id="precios-titulo" style="margin: 0; font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 1; font-size: clamp(34px, 4.6cqi, 60px)">Probalo un mes sin pagar nada</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<div style="flex: 1 1 300px; min-width: 0; padding: 28px; background: #1F4D35; color: #EEF3EA; border: 3px solid #12241A; border-radius: 8px; box-shadow: 6px 6px 0 #D63A73; display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 14px">Primer mes</span>
+<span style="font-weight: 900; font-stretch: 68%; font-size: 64px; line-height: 1">Gratis</span>
+<span>Tu ficha del comercio + 1 publicación por semana.</span>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; padding: 28px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 14px">Por mes</span>
+<span style="font-weight: 900; font-stretch: 68%; font-size: 64px; line-height: 1">$5.000</span>
+<span>La ficha + 1 publicación por semana, el día que elijas.</span>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; padding: 28px; background: #FFFFFF; border: 2px solid #12241A; border-radius: 8px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 14px">Pack 3 meses</span>
+<span style="font-weight: 900; font-stretch: 68%; font-size: 64px; line-height: 1; color: #1F4D35">$10.000</span>
+<span>Lo mismo, tres meses, por menos.</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Vecinos + zona -->
+<section id="vecinos" aria-labelledby="vecinos-titulo" style="border-bottom: 2px solid #12241A">
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; color: #1F4D35; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px">Para vecinos</p>
+<h2 id="vecinos-titulo" style="margin: 0; font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 1; font-size: clamp(34px, 4.6cqi, 60px)">Enterate de lo que hay a la vuelta</h2>
+<p style="margin: 0; font-size: 19px">Las ofertas del almacén, la carnicería y los comercios de tu barrio, en un solo lugar. Sin buscar en grupos, sin publicidad de toda la ciudad: solo lo que tenés a 5 cuadras.</p>
+<a href="#formulario" onClick="{{ elegirVecino }}" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #12241A; color: #EEF3EA; font-weight: 800; font-size: 18px; text-decoration: none; border-radius: 6px">Avisame cuando arranque</a>
+</div>
+<figure role="img" aria-label="Esquema de la zona: 5 cuadras alrededor de la esquina de Juan Manuel de Rosas y Felipe Varela" style="flex: 1 1 380px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; align-items: center">
+<div style="position: relative; width: 100%; max-width: 420px; aspect-ratio: 1 / 1; background-color: #FFFFFF; background-image: repeating-linear-gradient(0deg, transparent 0 34px, #D9D2C3 34px 38px), repeating-linear-gradient(90deg, transparent 0 34px, #D9D2C3 34px 38px); border: 3px dashed #12241A; border-radius: 8px; overflow: hidden">
+<div style="position: absolute; left: 0; right: 0; top: calc(50% - 7px); height: 14px; background: #12241A"></div>
+<div style="position: absolute; top: 0; bottom: 0; left: calc(50% - 7px); width: 14px; background: #12241A"></div>
+<span style="position: absolute; left: 10px; top: calc(50% - 38px); font-weight: 800; font-size: 14px; background: #EEF3EA; padding: 2px 6px; border-radius: 4px">J. M. de Rosas</span>
+<span style="position: absolute; left: calc(50% + 14px); top: 10px; font-weight: 800; font-size: 14px; background: #EEF3EA; padding: 2px 6px; border-radius: 4px">Felipe Varela</span>
+<span style="position: absolute; left: calc(50% - 18px); top: calc(50% - 18px); width: 36px; height: 36px; background: #D63A73; border: 3px solid #FFFFFF; border-radius: 50%"></span>
+</div>
+<figcaption style="font-size: 14px; color: #46554B">5 cuadras para cada lado de la esquina. Esquema, no a escala.</figcaption>
+</figure>
+</div>
+</section>
+
+<!-- Formulario -->
+<section id="formulario" aria-labelledby="form-titulo" style="background: #1F4D35; color: #EEF3EA; border-bottom: 2px solid #12241A">
+<div style="max-width: 720px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 24px">
+<h2 id="form-titulo" style="margin: 0; font-weight: 900; font-stretch: 70%; text-transform: uppercase; line-height: 1; font-size: clamp(34px, 4.6cqi, 60px)">Dejanos tus datos</h2>
+<sc-if value="{{ noEnviado }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 20px; padding: 28px; background: #EEF3EA; color: #12241A; border: 3px solid #12241A; border-radius: 8px; box-shadow: 8px 8px 0 #D63A73">
+<div role="group" aria-label="¿Quién sos?" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-if value="{{ comercio }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ elegirComercio }}" aria-pressed="true" style="min-height: 48px; padding: 0 18px; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px; cursor: pointer; background: #12241A; color: #EEF3EA">Tengo un comercio</button>
+<button type="button" onClick="{{ elegirVecino }}" aria-pressed="false" style="min-height: 48px; padding: 0 18px; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px; cursor: pointer; background: #FFFFFF; color: #12241A">Soy vecino</button>
+</sc-if>
+<sc-if value="{{ vecino }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ elegirComercio }}" aria-pressed="false" style="min-height: 48px; padding: 0 18px; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px; cursor: pointer; background: #FFFFFF; color: #12241A">Tengo un comercio</button>
+<button type="button" onClick="{{ elegirVecino }}" aria-pressed="true" style="min-height: 48px; padding: 0 18px; font: inherit; font-weight: 800; border: 2px solid #12241A; border-radius: 6px; cursor: pointer; background: #12241A; color: #EEF3EA">Soy vecino</button>
+</sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nombre" style="font-weight: 700">{{ etiquetaNombre }}</label>
+<input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="{{ ejemploNombre }}" style="min-height: 48px; padding: 0 14px; font: inherit; color: #12241A; background: #FFFFFF; border: 2px solid #12241A; border-radius: 6px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-weight: 700">Email</label>
+<input id="email" name="email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" style="min-height: 48px; padding: 0 14px; font: inherit; color: #12241A; background: #FFFFFF; border: 2px solid #12241A; border-radius: 6px">
+</div>
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<input id="consentimiento" name="consentimiento" type="checkbox" style="width: 24px; height: 24px; margin: 2px 0 0; accent-color: #1F4D35; flex: none">
+<label for="consentimiento" style="font-size: 15px">Acepto que Vidriera Salta me contacte. Mis datos se usan solo para eso, y puedo pedir que los borren cuando quiera.</label>
+</div>
+<button type="button" onClick="{{ enviar }}" style="min-height: 56px; padding: 0 24px; background: #D63A73; color: #12241A; font: inherit; font-weight: 800; font-size: 19px; border: 2px solid #12241A; border-radius: 6px; cursor: pointer">{{ textoBoton }}</button>
+</div>
+</sc-if>
+<sc-if value="{{ enviado }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-direction: column; gap: 12px; padding: 28px; background: #EEF3EA; color: #12241A; border: 3px solid #12241A; border-radius: 8px; box-shadow: 8px 8px 0 #D63A73">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 36px; text-transform: uppercase; line-height: 1">¡Listo, te anotamos!</span>
+<span>{{ textoGracias }}</span>
+<button type="button" onClick="{{ volver }}" style="align-self: flex-start; min-height: 44px; padding: 0 18px; background: #FFFFFF; color: #12241A; font: inherit; font-weight: 700; border: 2px solid #12241A; border-radius: 6px; cursor: pointer">Cargar otro</button>
+</div>
+</sc-if>
+</div>
+</section>
+
+<!-- Pie -->
+<footer style="background: #12241A; color: #EEF3EA">
+<div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; font-size: 15px">
+<span style="font-weight: 900; font-stretch: 70%; font-size: 22px; text-transform: uppercase">Vidriera Salta</span>
+<span style="max-width: 640px">Privacidad: guardamos tu nombre y tu email solo para contactarte por Vidriera Salta. Para pedir que los borremos, escribinos a echarly02@gmail.com.</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tipo: 'comercio', enviado: false };
+  }
+  renderVals() {
+    const comercio = this.state.tipo === 'comercio';
+    return {
+      comercio: comercio,
+      vecino: !comercio,
+      etiquetaNombre: comercio ? 'Nombre del comercio' : 'Tu nombre',
+      ejemploNombre: comercio ? 'Ej.: Almacén de Gladis' : 'Ej.: Ana',
+      textoBoton: comercio ? 'Quiero mi primer mes gratis' : 'Avisame de las ofertas',
+      textoGracias: comercio
+        ? 'Te escribimos en estos días para armar tu ficha y tu primera publicación.'
+        : 'Te avisamos por email cuando arranquen las ofertas del barrio.',
+      enviado: this.state.enviado,
+      noEnviado: !this.state.enviado,
+      elegirComercio: () => this.setState({ tipo: 'comercio' }),
+      elegirVecino: () => this.setState({ tipo: 'vecino' }),
+      enviar: () => this.setState({ enviado: true }),
+      volver: () => this.setState({ enviado: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
