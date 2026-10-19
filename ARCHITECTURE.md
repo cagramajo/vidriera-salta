@@ -36,7 +36,7 @@
 - `fuente` se lee de `?fuente=` en el navegador (`useEffect`), así la página sigue siendo estática. Se normaliza en el servidor.
 - `POST /api/leads`, en este orden: JSON inválido o campo inválido → 400; campo trampa `empresa` lleno → 200 `{"ok":true}` sin tocar la base; sin `SUPABASE_URL`/`SUPABASE_ANON_KEY` → 503; insert; error `23505` → 200 `{"ok":true}`; otro error → 500.
 - El insert no pide la fila de vuelta: la tabla no tiene policy de select.
-- Mapa de la zona (`Neighbors.tsx`, `.zona__*` en `globals.css`): Felipe Varela horizontal, remarcada de punta a punta; J. M. de Rosas vertical, remarcada del borde de arriba hasta el cruce y, debajo, una línea común de la cuadrícula (`.zona__calle-comun`); el punto lapacho va en el cruce.
+- Mapa de la zona (`Neighbors.tsx`, `.zona__*` en `globals.css`): `<svg>` inline con `role="img"` y `aria-label`, copia del dibujo aprobado `docs/design/mapa-zona.svg` (fuente de verdad). Recuadro apaisado 1740 × 860; contorno punteado `--monte` con relleno `--niebla`, sin cuadrícula; Felipe Varela y Rosas (solo hasta el cruce) en `#f59bbe`; punto lapacho claro en el cruce; rótulos en Archivo (la fuente de la página, por `--fuente-archivo`), los del borde abreviados (J. V. González, Á. Vargas, Chalimín, Fortín Cerrillos, Castillo). Los textos dicen "a pocas cuadras".
 - El campo trampa va fuera de pantalla (`.trampa`), con `tabindex="-1"`, `autocomplete="off"` y `aria-hidden="true"`.
 
 ## Entorno

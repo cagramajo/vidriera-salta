@@ -146,13 +146,31 @@ c12() { # C12 sin scroll horizontal a 390 px
   if [ $? -eq 0 ]; then ok "C12 a 390 px: $out"; else ko "C12 $out"; fi
 }
 
+# --- Spec 003 ---
+
+d2() { # D2 no queda "5 cuadras" y están los textos nuevos
+  local bad=""
+  [ -n "$(git grep -n "5 cuadras" -- app docs/design/handoff-landing.md)" ] && bad="$bad queda-5-cuadras"
+  contiene "$TMP/home.html" 'A pocas cuadras de Juan Manuel de Rosas y Felipe Varela' 'a pocas cuadras'     'La zona de Vidriera Salta, a pocas cuadras del cruce. Esquema, no a escala.' || bad="$bad faltan:$MISSING"
+  if [ -z "$bad" ]; then ok "D2 sin \"5 cuadras\"; los tres textos nuevos están"; else ko "D2:$bad"; fi
+}
+
+d3() { # D3 el mapa es el SVG aprobado
+  local bad=""
+  grep -qE '<svg[^>]*role="img"[^>]*aria-label="[^"]*Juan Manuel de Rosas[^"]*Felipe Varela' "$TMP/home.html" || bad="$bad svg-sin-role-aria"
+  [ -n "$(git grep -n "zona__calle" -- app)" ] && bad="$bad clase-zona__calle"
+  git grep -qi "#f59bbe" -- app || bad="$bad sin-#f59bbe"
+  awk '/^\.zona__mapa[ ,{]/,/^}/' app/globals.css | grep -q "gradient" && bad="$bad cuadricula"
+  if [ -z "$bad" ]; then ok "D3 svg role=img con aria-label, sin zona__calle, #f59bbe, sin cuadrícula"; else ko "D3:$bad"; fi
+}
+
 c1
 c2
 c9
 c10
 c11
 if [ -d .next ] && start_server; then
-  c3; c4; c5; c6; c7; c8; c12
+  c3; c4; c5; c6; c7; c8; c12; d2; d3
 else
   ko "C3-C8, C12 no se pudieron correr: sin servidor"
 fi
