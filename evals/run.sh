@@ -10,6 +10,9 @@ ok() { printf 'PASS %s\n' "$1"; passed=$((passed + 1)); }
 ko() { printf 'FAIL %s\n' "$1"; failed=$((failed + 1)); }
 ev() { printf '     | %s\n' "$1"; }
 
+# shellcheck source=evals/casos.sh
+. "$(dirname "$0")/casos.sh"
+
 PORT=3100
 BASE="http://localhost:$PORT"
 SERVER_PID=""
@@ -67,11 +70,8 @@ start_server() {
 
 c3() { # C3 secciones y textos
   curl -s "$BASE/" >"$TMP/home.html"
-  if contiene "$TMP/home.html" 'lang="es"' 'El cartel de tu vereda, en el celular de todo el barrio' 'Sumá tu comercio' \
-    'Quiero ver las ofertas' 'Tu cartel solo lo ve quien pasa por la puerta' 'Nosotros hacemos el trabajo' \
-    'Probalo un mes sin pagar nada' '$5.000' '$10.000' 'Enterate de lo que hay a la vuelta' \
-    'Juan Manuel de Rosas' 'Felipe Varela' 'Dejanos tus datos' 'Privacidad' 'mailto:echarly02@gmail.com'; then
-    ok "C3 la página contiene las 15 cadenas del handoff"
+  if contiene "$TMP/home.html" "${C3_CADENAS[@]}"; then
+    ok "C3 la página contiene las ${#C3_CADENAS[@]} cadenas del handoff"
   else ko "C3 faltan:$MISSING"; fi
 }
 
@@ -93,14 +93,8 @@ c5() { # C5 paleta
 
 c6() { # C6 rechazos 400
   local bad=""
-  local casos=(
-    '{"nombre":"Ana","email":"ana@ejemplo.com","tipo":"vecino"}'
-    '{"nombre":"Ana","email":"ana@ejemplo.com","tipo":"vecino","consentimiento":false}'
-    '{"nombre":"Ana","email":"ana.ejemplo.com","tipo":"vecino","consentimiento":true}'
-    '{"nombre":"","email":"ana@ejemplo.com","tipo":"vecino","consentimiento":true}'
-    '{"nombre":"Ana","email":"ana@ejemplo.com","tipo":"otro","consentimiento":true}'
-  )
-  local nombres=(sin-consentimiento consentimiento-false email-sin-arroba nombre-vacio tipo-invalido)
+  local casos=("${C6_CASOS[@]}")
+  local nombres=("${C6_NOMBRES[@]}")
   local i
   for i in "${!casos[@]}"; do
     local s; s="$(post "${casos[$i]}")"
@@ -111,7 +105,7 @@ c6() { # C6 rechazos 400
 }
 
 c7() { # C7 trampa
-  local s; s="$(post '{"nombre":"Ana","email":"ana@ejemplo.com","tipo":"vecino","consentimiento":true,"empresa":"ACME"}')"
+  local s; s="$(post "$TRAMPA")"
   local b; b="$(cat "$TMP/body")"
   ev "status $s, cuerpo $b"
   if [ "$s" = "200" ] && [ "$b" = '{"ok":true}' ]; then ok "C7 la trampa responde 200 {\"ok\":true}"; else ko "C7 esperaba 200 {\"ok\":true}"; fi

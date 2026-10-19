@@ -92,8 +92,9 @@ corchetes: es un ejemplo, no un comercio real.
    hay a la vuelta". Texto: "Las ofertas del almacén, la carnicería y los comercios de tu barrio, en
    un solo lugar. Sin buscar en grupos, sin publicidad de toda la ciudad: solo lo que tenés a 5
    cuadras." Botón oscuro "Avisame cuando arranque" (preselecciona vecino). Esquema de la zona:
-   cuadrado con cuadrícula de manzanas, dos calles negras que se cruzan ("J. M. de Rosas"
-   horizontal, "Felipe Varela" vertical), punto `--lapacho` en el cruce, borde discontinuo; pie:
+   cuadrado con cuadrícula de manzanas, dos calles que se cruzan: "Felipe Varela" horizontal, negra de
+   punta a punta; "J. M. de Rosas" vertical, negra solo desde el borde de arriba hasta el cruce (debajo
+   del cruce se ve como una calle común de la cuadrícula); cada nombre pegado a su calle; punto `--lapacho` en el cruce, borde discontinuo; pie:
    "5 cuadras para cada lado de la esquina. Esquema, no a escala." Con `role="img"` y
    `aria-label` descriptivo.
 7. **Formulario** (id `formulario`; fondo `--monte`). H2: "Dejanos tus datos". Tarjeta `--niebla`
