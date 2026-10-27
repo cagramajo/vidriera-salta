@@ -1,5 +1,5 @@
 ---
-status: esperando Gate 1
+status: pendiente
 depends_on: [003]
 ---
 
@@ -10,7 +10,7 @@ por rubro, carrusel de lo que vence hoy, mapa con un punto por comercio y su fic
 aprobado. Sale con comercios y ofertas **de ejemplo**, avisados como tales en pantalla. Cambia también
 el logo a "VS" en toda la web.
 
-**Tipo:** feature · **Flujo:** requirements-first · **Riesgo:** usuarios externos, sin pagos (compuertas: Ready to Build y Ready to Release de Edu; el merge lo deciden los evals y el revisor adversarial)
+**Tipo:** feature · **Flujo:** requirements-first · **Gate 1:** aprobada por Edu el 2026-10-27 · **Riesgo:** usuarios externos, sin pagos (compuertas: Ready to Build y Ready to Release de Edu; el merge lo deciden los evals y el revisor adversarial)
 
 ## Estado previo
 
@@ -57,7 +57,7 @@ el logo a "VS" en toda la web.
 - DECIDIDO por Edu (2026-10-26): la v1 sale con los comercios y ofertas de ejemplo del mock, avisados como tales.
 - DECIDIDO por Edu (2026-10-26): entran todos: logo "VS", contador, filtros de rubro, abierto/cerrado y carrusel.
 - DECIDIDO por Edu (2026-10-20, ver `decisions.md` del brain): carrusel de las ofertas que vencen hoy, cada 3 s, controles sutiles; la zona del mapa no cambia; logo "VS" en Archivo angosta; en celular, encabezado en una fila.
-- PROPUESTO por Claude, se aprueba con el Gate 1: **los datos de ejemplo viven en el código** (`lib/vidriera-ejemplo.ts`), con el vencimiento en días desde hoy como en el mock, no en Supabase. Así los ejemplos no se vencen, las URLs de prueba funcionan sin la base y la pausa de Supabase no deja la vidriera vacía. Los campos de los tipos copian las tablas que vendrán, para que el cambio a la base sea solo de origen.
+- DECIDIDO por Edu (Gate 1, 2026-10-27), a propuesta de Claude: **los datos de ejemplo viven en el código** (`lib/vidriera-ejemplo.ts`), con el vencimiento en días desde hoy como en el mock, no en Supabase. Así los ejemplos no se vencen, las URLs de prueba funcionan sin la base y la pausa de Supabase no deja la vidriera vacía. Los campos de los tipos copian las tablas que vendrán, para que el cambio a la base sea solo de origen.
 - En el mock dice "todas a menos de cinco cuadras": va "a pocas cuadras" (spec 003).
 
 ### Delegadas al agente, con su criterio
