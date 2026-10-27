@@ -1,0 +1,487 @@
+<title>Vidriera Salta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+<style>
+/* Layout: cartel de vereda digital — banda monte con "lo de hoy", feed de publicaciones a la izquierda, mapa del barrio fijo a la derecha, directorio de fichas abajo.
+   Tokens del design system de Vidriera Salta (handoff 2026-10-18). Look único, claro, a propósito: la marca no tiene modo oscuro. */
+:root {
+  --monte: #1f4d35;
+  --lapacho: #d63a73;
+  --lapacho-claro: #f59bbe;
+  --niebla: #eef3ea;
+  --sombra: #12241a;
+  --blanco: #ffffff;
+  --texto-suave: #46554b;
+  --fuente: "Archivo", system-ui, "Segoe UI", Arial, sans-serif;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--niebla); color: var(--sombra); font-family: var(--fuente); font-size: 17px; line-height: 1.5; overflow-x: clip; }
+p { margin: 0; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.pagina { container-type: inline-size; }
+.contenedor { max-width: 1200px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.angosto { font-stretch: 68%; font-weight: 900; text-transform: uppercase; line-height: 1; }
+
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--lapacho); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* Aviso de mock */
+.aviso { background: var(--sombra); color: var(--lapacho-claro); font-size: 14px; font-weight: 700; text-align: center; padding-block: 8px; letter-spacing: .02em; }
+
+/* Botones */
+.boton { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px; font: inherit; font-weight: 800; font-size: 18px; line-height: 1.2; text-decoration: none; border: 2px solid var(--sombra); border-radius: 6px; cursor: pointer; color: var(--sombra); background: var(--niebla); }
+.boton--principal { background: var(--lapacho); font-size: 19px; }
+.boton--oscuro { background: var(--sombra); color: var(--niebla); }
+.boton--chico { min-height: 44px; padding: 0 16px; font-size: 16px; }
+.boton--principal.boton--chico { font-size: 19px; }
+
+/* Encabezado */
+.encabezado { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--niebla); border-bottom: 2px solid var(--sombra); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--niebla); }
+.encabezado__fila { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-block: 12px; }
+.logo { display: flex; align-items: center; gap: 10px; color: var(--sombra); text-decoration: none; margin-right: auto; }
+.logo__marca { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--monte); color: var(--niebla); border: 2px solid var(--sombra); border-radius: 6px; font-weight: 900; font-stretch: 62%; font-size: 21px; letter-spacing: -.01em; line-height: 1; }
+.logo__texto { font-weight: 900; font-stretch: 70%; font-size: 26px; text-transform: uppercase; letter-spacing: .01em; }
+.buscador { flex: 1 1 260px; max-width: 420px; display: flex; }
+.buscador input { width: 100%; min-height: 44px; padding: 0 14px; font: inherit; font-size: 16px; color: var(--sombra); background: var(--blanco); border: 2px solid var(--sombra); border-radius: 6px; }
+.buscador input::placeholder { color: var(--texto-suave); }
+.solo-movil { display: none; }
+@media (max-width: 640px) {
+  .encabezado__fila { flex-wrap: nowrap; gap: 8px; padding-block: 8px; }
+  .logo { margin-right: 0; flex: none; }
+  .logo__marca { width: 36px; height: 36px; font-size: 19px; }
+  .logo__texto, .solo-escritorio { display: none; }
+  .solo-movil { display: inline; }
+  .buscador { flex: 1 1 auto; min-width: 0; }
+  .buscador input { min-height: 40px; font-size: 16px; padding: 0 10px; }
+  .encabezado .boton--chico { flex: none; min-height: 40px; padding: 0 12px; font-size: 16px; }
+  .lateral { top: calc(env(safe-area-inset-top, 0px) + 64px); }
+}
+
+/* Banda de hoy */
+.hoy { background: var(--monte); color: var(--niebla); border-bottom: 2px solid var(--sombra); }
+.hoy__fila { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; padding-block: 44px 52px; }
+.hoy__texto { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.rotulo { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
+.rotulo--claro { color: var(--lapacho-claro); }
+.rotulo--monte { color: var(--monte); }
+.hoy h1 { font-size: clamp(42px, 6.6cqi, 92px); line-height: .95; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.hoy h1 em { font-style: normal; color: var(--lapacho-claro); }
+.hoy__bajada { font-size: 20px; max-width: 540px; }
+.contadores { display: flex; flex-wrap: wrap; gap: 10px; }
+.contador { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 14px; background: var(--niebla); color: var(--sombra); border: 2px solid var(--sombra); border-radius: 6px; font-weight: 700; font-size: 15px; }
+.contador b { font-weight: 900; font-stretch: 68%; font-size: 28px; line-height: 1; color: var(--monte); font-variant-numeric: tabular-nums; }
+.hoy__destacada { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+/* Publicación (componente del DS) */
+.publicacion { width: 100%; background: var(--blanco); color: var(--sombra); border: 2px solid var(--sombra); border-radius: 8px; display: flex; flex-direction: column; text-align: left; font: inherit; padding: 0; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.publicacion:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--sombra); }
+.publicacion--destacada { max-width: 380px; border-width: 3px; box-shadow: 8px 8px 0 var(--lapacho); transform: rotate(-2deg); }
+.publicacion--destacada:hover { transform: rotate(-2deg) translate(-2px, -2px); box-shadow: 10px 10px 0 var(--lapacho); }
+.publicacion__cabeza { padding: 12px 16px; border-bottom: 2px dashed var(--sombra); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.publicacion__comercio { font-weight: 800; line-height: 1.2; }
+.publicacion__rubro { display: block; font-size: 13px; font-weight: 600; color: var(--texto-suave); }
+.etiqueta { font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 4px; white-space: nowrap; border: 2px solid transparent; }
+.etiqueta--hoy { background: var(--lapacho-claro); }
+.etiqueta--dias { background: var(--niebla); border-color: var(--sombra); }
+.publicacion__cuerpo { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.publicacion__producto { font-size: 30px; }
+.publicacion--destacada .publicacion__producto { font-size: 40px; }
+.publicacion__precio { font-weight: 900; font-stretch: 68%; font-size: 52px; line-height: 1; color: var(--monte); font-variant-numeric: tabular-nums; }
+.publicacion--destacada .publicacion__precio { font-size: 64px; }
+.publicacion__unidad { font-size: 22px; white-space: nowrap; }
+.publicacion__nota { font-size: 15px; }
+.publicacion__pie { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 0 16px 16px; font-size: 14px; color: var(--texto-suave); }
+.distancia { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--sombra); }
+.distancia::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--lapacho); border: 2px solid var(--sombra); }
+.publicacion__wa { margin: 0 16px 16px; min-height: 44px; font-size: 16px; }
+
+/* Cuerpo: feed + mapa */
+.cuerpo { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; padding-block: 48px 64px; }
+.feed { flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.lateral { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 20px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 92px); }
+.feed__cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; }
+.titulo-seccion { font-size: clamp(32px, 4.2cqi, 54px); overflow-wrap: anywhere; }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; }
+.filtro { min-height: 44px; padding: 0 16px; font: inherit; font-weight: 800; font-size: 16px; border: 2px solid var(--sombra); border-radius: 6px; cursor: pointer; background: var(--blanco); color: var(--sombra); }
+.filtro[aria-pressed="true"] { background: var(--sombra); color: var(--niebla); }
+.filtro .n { font-weight: 600; opacity: .7; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.interruptor { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; cursor: pointer; min-height: 44px; }
+.interruptor input { width: 22px; height: 22px; accent-color: var(--monte); margin: 0; }
+
+.grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.vacio { padding: 28px; border: 2px dashed var(--sombra); border-radius: 8px; background: var(--blanco); display: flex; flex-direction: column; gap: 8px; }
+.vacio strong { font-size: 22px; }
+
+/* Mapa */
+.mapa { background: var(--blanco); border: 3px dashed var(--sombra); border-radius: 8px; overflow: hidden; }
+.mapa svg { display: block; width: 100%; height: auto; }
+.mapa__borde { fill: var(--niebla); stroke: var(--monte); stroke-width: 12; stroke-dasharray: 34 20; stroke-linejoin: round; }
+.mapa__calle { stroke: var(--lapacho-claro); stroke-width: 30; stroke-linecap: round; fill: none; }
+.mapa__texto { font-family: var(--fuente); font-weight: 800; font-size: 50px; fill: var(--sombra); paint-order: stroke; stroke: var(--blanco); stroke-width: 14px; }
+.mapa__texto--borde { font-weight: 700; fill: var(--monte); stroke-width: 12px; }
+.pin { cursor: pointer; }
+.pin circle { fill: var(--blanco); stroke: var(--sombra); stroke-width: 8; transition: r .15s ease; }
+.pin text { font-family: var(--fuente); font-weight: 900; font-size: 42px; fill: var(--sombra); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.pin--oferta circle { fill: var(--lapacho); }
+.pin--activo circle { fill: var(--sombra); r: 48; }
+.pin--activo text { fill: var(--niebla); }
+.pin:focus-visible { outline: none; }
+.pin:focus-visible circle { stroke: var(--lapacho); stroke-width: 12; }
+
+/* Carrusel de la oferta del día */
+.carrusel { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.carrusel__escenario { width: 100%; display: flex; justify-content: center; padding: 6px 10px 12px; }
+.carrusel__escenario .publicacion { animation: entra .35s ease; }
+@keyframes entra { from { opacity: .4; transform: rotate(-2deg) translateX(14px); } to { opacity: 1; transform: rotate(-2deg); } }
+.carrusel__controles { display: flex; align-items: center; gap: 2px; opacity: .6; transition: opacity .2s ease; }
+.carrusel__controles:hover, .carrusel__controles:focus-within { opacity: 1; }
+.carrusel__flecha { width: 36px; height: 44px; padding: 0; font: inherit; font-weight: 700; font-size: 18px; border: 0; background: none; color: var(--niebla); cursor: pointer; }
+.carrusel__puntos { display: flex; }
+.carrusel__punto { width: 20px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.carrusel__punto::before { content: ""; width: 7px; height: 7px; border-radius: 4px; background: var(--niebla); opacity: .5; transition: width .2s ease, opacity .2s ease; }
+.carrusel__punto[aria-current="true"]::before { width: 18px; opacity: 1; background: var(--lapacho-claro); }
+.mapa__pie { font-size: 14px; color: var(--texto-suave); padding: 10px 14px; border-top: 2px dashed var(--sombra); background: var(--blanco); }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; font-weight: 600; }
+.leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--sombra); display: inline-block; }
+
+.caja-comercio { background: var(--sombra); color: var(--niebla); border: 2px solid var(--sombra); border-radius: 8px; padding: 22px; display: flex; flex-direction: column; gap: 12px; box-shadow: 6px 6px 0 var(--lapacho); }
+.caja-comercio h3 { font-size: 30px; }
+.caja-comercio .boton { align-self: flex-start; }
+
+/* Directorio de fichas */
+.directorio { background: var(--blanco); border-top: 2px solid var(--sombra); border-bottom: 2px solid var(--sombra); }
+.directorio__columna { padding-block: 64px; display: flex; flex-direction: column; gap: 28px; }
+.fichas { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+.ficha-mini { width: 100%; height: 100%; text-align: left; font: inherit; color: var(--sombra); background: var(--niebla); border: 2px solid var(--sombra); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+.ficha-mini:hover { background: var(--blanco); }
+.ficha-mini__fila { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.ficha-mini__nombre { font-size: 24px; }
+.ficha-mini__dato { font-size: 15px; color: var(--texto-suave); }
+.estado { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.estado::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--monte); }
+.estado--cerrado { color: var(--texto-suave); }
+.estado--cerrado::before { background: var(--blanco); border: 2px solid var(--texto-suave); }
+.num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--sombra); font-weight: 900; font-size: 13px; background: var(--blanco); flex: none; }
+
+/* Pie */
+.pie { background: var(--sombra); color: var(--niebla); }
+.pie__fila { padding-block: 40px; display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; font-size: 15px; }
+.pie__marca { font-weight: 900; font-stretch: 70%; font-size: 22px; text-transform: uppercase; }
+.pie__texto { max-width: 620px; }
+
+/* Ficha del comercio (panel) */
+.velo { position: fixed; inset: 0; background: rgba(18, 36, 26, .55); z-index: 40; }
+.panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100%); z-index: 50; background: var(--niebla); border-left: 3px solid var(--sombra); overflow-y: auto; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.panel__cabeza { background: var(--monte); color: var(--niebla); padding: 22px 22px 26px; border-bottom: 2px solid var(--sombra); display: flex; flex-direction: column; gap: 10px; }
+.panel__cerrar { align-self: flex-end; min-height: 44px; min-width: 44px; padding: 0 14px; font: inherit; font-weight: 800; background: var(--niebla); color: var(--sombra); border: 2px solid var(--sombra); border-radius: 6px; cursor: pointer; }
+.panel__nombre { font-size: 44px; overflow-wrap: anywhere; }
+.panel__cuerpo { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
+.datos { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; background: var(--blanco); border: 2px solid var(--sombra); border-radius: 8px; padding: 18px; }
+.datos dt { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--texto-suave); padding-top: 2px; }
+.datos dd { margin: 0; font-weight: 600; min-width: 0; }
+.panel__voz { font-size: 18px; border-left: 4px solid var(--lapacho); padding-left: 12px; }
+.panel__wa { width: 100%; }
+.panel__wa small { font-weight: 600; font-size: 14px; }
+</style>
+
+<div class="pagina">
+  <div class="aviso">Mock de la vidriera · comercios, precios y direcciones de ejemplo</div>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado__fila">
+      <a class="logo" href="#hoy"><span class="logo__marca">VS</span><span class="logo__texto">Vidriera Salta</span></a>
+      <label class="buscador" for="buscar">
+        <input id="buscar" type="search" placeholder="Buscá: pan, asado…" aria-label="Buscar en las ofertas del barrio">
+      </label>
+      <a class="boton boton--principal boton--chico" href="#publicar"><span class="solo-escritorio">Publicá tu oferta</span><span class="solo-movil">Publicá</span></a>
+    </div>
+  </header>
+
+  <section class="hoy" id="hoy">
+    <div class="contenedor hoy__fila">
+      <div class="hoy__texto">
+        <span class="rotulo rotulo--claro">Lunes 19 de octubre · Rosas y Felipe Varela</span>
+        <h1 class="angosto">Lo que hay hoy <em>a la vuelta</em></h1>
+        <p class="hoy__bajada">Las ofertas de los comercios del barrio, todas a menos de cinco cuadras. Tocá una y le escribís directo al comercio.</p>
+        <div class="contadores">
+          <span class="contador"><b id="c-ofertas">0</b> ofertas activas</span>
+          <span class="contador"><b id="c-hoy">0</b> vencen hoy</span>
+          <span class="contador"><b id="c-comercios">0</b> comercios</span>
+        </div>
+      </div>
+      <div class="hoy__destacada">
+        <span class="rotulo rotulo--claro">Vencen hoy · no te las pierdas</span>
+        <div class="carrusel" id="carrusel" role="region" aria-roledescription="carrusel" aria-label="Ofertas que vencen hoy">
+          <div class="carrusel__escenario" id="destacada" aria-live="polite"></div>
+          <div class="carrusel__controles">
+            <button type="button" class="carrusel__flecha" id="anterior" aria-label="Oferta anterior">←</button>
+            <div class="carrusel__puntos" id="puntos"></div>
+            <button type="button" class="carrusel__flecha" id="siguiente" aria-label="Oferta siguiente">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="contenedor cuerpo">
+    <main class="feed" id="ofertas">
+      <div class="feed__cabeza">
+        <div>
+          <span class="rotulo rotulo--monte">Ofertas del barrio</span>
+          <h2 class="angosto titulo-seccion">Elegí qué buscás</h2>
+        </div>
+        <label class="interruptor" for="solo-hoy"><input id="solo-hoy" type="checkbox"> Solo las que vencen hoy</label>
+      </div>
+      <div class="filtros" id="filtros" role="group" aria-label="Filtrar por rubro"></div>
+      <div class="grilla" id="grilla" aria-live="polite"></div>
+    </main>
+
+    <aside class="lateral" aria-label="Mapa del barrio">
+      <span class="rotulo rotulo--monte">Dónde queda cada uno</span>
+      <figure class="mapa" style="margin:0">
+        <svg viewBox="20 40 1740 860" role="img" aria-label="Esquema de la zona de Vidriera Salta alrededor del cruce de Juan Manuel de Rosas y Felipe Varela, con un punto por cada comercio">
+          <rect x="20" y="40" width="1740" height="860" fill="#ffffff"/>
+          <polygon class="mapa__borde" points="55,297 470,290 560,262 700,235 850,200 920,195 1020,180 1180,152 1260,130 1430,100 1590,90 1630,330 1650,390 1675,560 1700,700 1710,815 1500,808 1300,815 1100,825 900,845 700,850 520,862 405,870 398,728 250,725 100,735 68,740"/>
+          <line class="mapa__calle" x1="370" y1="604" x2="1620" y2="402"/>
+          <line class="mapa__calle" x1="880" y1="205" x2="948" y2="511"/>
+          <circle cx="948" cy="511" r="34" fill="#f59bbe" stroke="#ffffff" stroke-width="10"/>
+          <text class="mapa__texto" x="1080" y="461.67" transform="rotate(-9.2 1080 461.67)">Felipe Varela</text>
+          <text class="mapa__texto" x="800" y="215" transform="rotate(77.5 800 215)">J. M. de Rosas</text>
+          <text class="mapa__texto mapa__texto--borde" x="330" y="365.87" transform="rotate(-7.2 330 365.87)">J. V. González</text>
+          <text class="mapa__texto mapa__texto--borde" x="950" y="874" transform="rotate(-1.2 950 874)">Castillo</text>
+          <text class="mapa__texto mapa__texto--borde" x="85" y="712" transform="rotate(-1.2 85 712)">Á. Vargas</text>
+          <text class="mapa__texto mapa__texto--borde" x="352" y="655" transform="rotate(77.5 352 655)">Chalimín</text>
+          <text class="mapa__texto mapa__texto--borde" x="1612" y="102" transform="rotate(81.5 1612 102)">Fortín Cerrillos</text>
+          <g id="pines"></g>
+        </svg>
+        <figcaption class="mapa__pie">Esquema, no a escala. Tocá un punto para ver la ficha.</figcaption>
+      </figure>
+      <div class="leyenda">
+        <span><i style="background:var(--lapacho)"></i>Con oferta hoy</span>
+        <span><i style="background:var(--blanco)"></i>Ficha del comercio</span>
+      </div>
+      <div class="caja-comercio" id="publicar">
+        <span class="rotulo rotulo--claro">¿Tenés un comercio acá?</span>
+        <h3 class="angosto">Tu oferta en esta lista mañana</h3>
+        <p>Mandanos una foto de tu cartel por WhatsApp. La escribimos a tu estilo y vos elegís el día. El primer mes es gratis.</p>
+        <a class="boton boton--principal boton--chico" href="#publicar">Sumá tu comercio</a>
+      </div>
+    </aside>
+  </div>
+
+  <section class="directorio" id="comercios">
+    <div class="contenedor directorio__columna">
+      <div>
+        <span class="rotulo rotulo--monte">Directorio</span>
+        <h2 class="angosto titulo-seccion">Los comercios del barrio</h2>
+      </div>
+      <ul class="fichas" id="fichas"></ul>
+    </div>
+  </section>
+
+  <footer class="pie">
+    <div class="contenedor pie__fila">
+      <span class="pie__marca">Vidriera Salta</span>
+      <p class="pie__texto">Publicidad para los comercios chicos de la zona de Juan Manuel de Rosas y Felipe Varela, en el sudoeste de Salta. Sin supermercados ni cadenas: solo lo que tenés a pocas cuadras.</p>
+    </div>
+  </footer>
+</div>
+
+<div class="velo" id="velo" hidden></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-nombre" hidden></aside>
+
+<script>
+const COMERCIOS = [
+  { id: 1, nombre: "Carnicería Don Pocho", rubro: "Carnicería", dir: "Felipe Varela 2140", cuadras: 1, horario: "8 a 13 y 17 a 21", abierto: true, x: 700, y: 630, voz: "Siempre buena carne. Cuando hay oferta, es de verdad." },
+  { id: 2, nombre: "Almacén de Gladis", rubro: "Almacén", dir: "J. M. de Rosas 860", cuadras: 2, horario: "7:30 a 22", abierto: true, x: 1000, y: 330, voz: "Lo de todos los días, más barato que en el súper." },
+  { id: 3, nombre: "Verdulería La Quebrada", rubro: "Verdulería", dir: "Castillo 1320", cuadras: 4, horario: "8 a 14 y 17 a 21", abierto: true, x: 1150, y: 750, voz: "Verdura fresca de la feria, todas las mañanas." },
+  { id: 4, nombre: "Panadería El Horno", rubro: "Panadería", dir: "Felipe Varela 2310", cuadras: 2, horario: "6 a 13 y 16 a 21", abierto: true, x: 1300, y: 540, voz: "Pan casero y bollos calentitos desde las 6." },
+  { id: 5, nombre: "Ferretería Chalimín", rubro: "Ferretería", dir: "Chalimín 455", cuadras: 5, horario: "8:30 a 13 y 16:30 a 20:30", abierto: false, x: 530, y: 770, voz: "Si se rompió algo en tu casa, acá está el repuesto." },
+  { id: 6, nombre: "Kiosco Los Primos", rubro: "Kiosco", dir: "J. V. González 1180", cuadras: 3, horario: "24 horas", abierto: true, x: 620, y: 380, voz: "Abierto siempre, con carga SUBE." },
+  { id: 7, nombre: "Pollería Doña Rosa", rubro: "Pollería", dir: "Á. Vargas 770", cuadras: 4, horario: "8 a 14 y 17 a 21", abierto: true, x: 210, y: 520, voz: "Pollo fresco y milanesas armadas." },
+  { id: 8, nombre: "Despensa Fortín", rubro: "Almacén", dir: "Fortín Cerrillos 210", cuadras: 5, horario: "8 a 21", abierto: true, x: 1480, y: 270, voz: "La despensa de la esquina, con fiado para los de siempre." },
+];
+
+const OFERTAS = [
+  { comercio: 1, producto: "Asado de novillo", precio: "8.900", unidad: "el kilo", vence: 0, nota: "Hasta agotar. Llevando 3 kilos, la tira de chorizo sale a mitad de precio.", destacada: true },
+  { comercio: 2, producto: "Yerba 1 kg", precio: "3.450", unidad: "c/u", vence: 2, nota: "Marcas de primera. Máximo 4 por persona." },
+  { comercio: 3, producto: "Tomate perita", precio: "1.200", unidad: "el kilo", vence: 0, nota: "Llegó hoy de la feria. Si llevás 2 kilos, el morrón va de regalo." },
+  { comercio: 4, producto: "Docena de bollos", precio: "2.800", unidad: "la docena", vence: 6, nota: "Todos los días de la semana, de 17 a 20." },
+  { comercio: 7, producto: "Milanesas de pollo", precio: "6.500", unidad: "el kilo", vence: 1, nota: "Ya rebozadas, listas para el horno." },
+  { comercio: 6, producto: "Gaseosa 2,25 L + alfajor", precio: "2.990", unidad: "el combo", vence: 0, nota: "El combo de la tarde, solo hoy." },
+  { comercio: 5, producto: "Cuerito para canilla", precio: "350", unidad: "c/u", vence: 4, nota: "Te explicamos cómo cambiarlo en dos minutos." },
+  { comercio: 8, producto: "Aceite girasol 1,5 L", precio: "2.650", unidad: "c/u", vence: 3, nota: "Precio fijo toda la semana." },
+];
+
+const DIAS = ["Solo hoy", "Hasta mañana", "Hasta el miércoles", "Hasta el jueves", "Hasta el viernes", "Hasta el sábado", "Hasta el domingo"];
+const porId = id => COMERCIOS.find(c => c.id === id);
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+const cuadras = n => n === 1 ? "a 1 cuadra" : `a ${n} cuadras`;
+
+let rubro = "Todo";
+let soloHoy = false;
+let busqueda = "";
+
+function tarjeta(o, destacada) {
+  const c = porId(o.comercio);
+  const etiqueta = o.vence === 0
+    ? `<span class="etiqueta etiqueta--hoy">Solo hoy</span>`
+    : `<span class="etiqueta etiqueta--dias">${DIAS[o.vence]}</span>`;
+  return `
+    <article class="publicacion${destacada ? " publicacion--destacada" : ""}" tabindex="0" data-comercio="${c.id}" aria-label="${esc(o.producto)} en ${esc(c.nombre)}">
+      <div class="publicacion__cabeza">
+        <span class="publicacion__comercio">${esc(c.nombre)}<span class="publicacion__rubro">${esc(c.rubro)}</span></span>
+        ${etiqueta}
+      </div>
+      <div class="publicacion__cuerpo">
+        <span class="publicacion__producto angosto">${esc(o.producto)}</span>
+        <span class="publicacion__precio">$${o.precio} <span class="publicacion__unidad">${esc(o.unidad)}</span></span>
+        ${destacada ? "" : `<p class="publicacion__nota">${esc(o.nota)}</p>`}
+      </div>
+      <div class="publicacion__pie">
+        <span class="distancia">${cuadras(c.cuadras)}</span>
+        <span>${esc(c.dir)}</span>
+      </div>
+      <span class="boton boton--oscuro publicacion__wa">Escribile por WhatsApp</span>
+    </article>`;
+}
+
+function filtradas() {
+  const q = busqueda.trim().toLowerCase();
+  return OFERTAS.filter(o => {
+    const c = porId(o.comercio);
+    if (rubro !== "Todo" && c.rubro !== rubro) return false;
+    if (soloHoy && o.vence !== 0) return false;
+    if (q && !(`${o.producto} ${c.nombre} ${c.rubro} ${o.nota}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+
+function pintarFiltros() {
+  const rubros = ["Todo", ...new Set(OFERTAS.map(o => porId(o.comercio).rubro))];
+  document.getElementById("filtros").innerHTML = rubros.map(r => {
+    const n = r === "Todo" ? OFERTAS.length : OFERTAS.filter(o => porId(o.comercio).rubro === r).length;
+    return `<button type="button" class="filtro" data-rubro="${esc(r)}" aria-pressed="${r === rubro}">${esc(r)}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+
+function pintarGrilla() {
+  const lista = filtradas();
+  document.getElementById("grilla").innerHTML = lista.length
+    ? lista.map(o => tarjeta(o, false)).join("")
+    : `<div class="vacio"><strong class="angosto">Nada por acá, por ahora</strong><p>No hay ofertas con ese filtro. Probá con "Todo" o sacá "Solo las que vencen hoy".</p></div>`;
+  const conOferta = new Set(lista.map(o => o.comercio));
+  document.querySelectorAll(".pin").forEach(p => p.classList.toggle("pin--oferta", conOferta.has(+p.dataset.comercio)));
+}
+
+function pintarPines() {
+  document.getElementById("pines").innerHTML = COMERCIOS.map(c => `
+    <g class="pin" data-comercio="${c.id}" tabindex="0" role="button" aria-label="${esc(c.nombre)}">
+      <circle cx="${c.x}" cy="${c.y}" r="40"></circle>
+      <text x="${c.x}" y="${c.y}">${c.id}</text>
+    </g>`).join("");
+}
+
+function pintarFichas() {
+  document.getElementById("fichas").innerHTML = COMERCIOS.map(c => {
+    const n = OFERTAS.filter(o => o.comercio === c.id).length;
+    return `<li><button type="button" class="ficha-mini" data-comercio="${c.id}">
+      <span class="ficha-mini__fila"><span class="num">${c.id}</span><span class="estado${c.abierto ? "" : " estado--cerrado"}">${c.abierto ? "Abierto ahora" : "Cerrado ahora"}</span></span>
+      <span class="ficha-mini__nombre angosto">${esc(c.nombre)}</span>
+      <span class="ficha-mini__dato">${esc(c.rubro)} · ${esc(c.dir)} · ${cuadras(c.cuadras)}</span>
+      <span class="ficha-mini__dato">${n ? `${n} oferta activa` : "Sin ofertas esta semana"}</span>
+    </button></li>`;
+  }).join("");
+}
+
+let ultimoFoco = null;
+function abrirFicha(id) {
+  const c = porId(id);
+  const ofertas = OFERTAS.filter(o => o.comercio === id);
+  ultimoFoco = document.activeElement;
+  document.querySelectorAll(".pin").forEach(p => p.classList.toggle("pin--activo", +p.dataset.comercio === id));
+  const panel = document.getElementById("panel");
+  panel.innerHTML = `
+    <div class="panel__cabeza">
+      <button type="button" class="panel__cerrar" id="cerrar">Cerrar ✕</button>
+      <span class="rotulo rotulo--claro">${esc(c.rubro)} · ${cuadras(c.cuadras)}</span>
+      <h2 class="angosto panel__nombre" id="panel-nombre">${esc(c.nombre)}</h2>
+      <span class="estado" style="color:var(--niebla)">${c.abierto ? "Abierto ahora" : "Cerrado ahora"}</span>
+    </div>
+    <div class="panel__cuerpo">
+      <p class="panel__voz">${esc(c.voz)}</p>
+      <dl class="datos">
+        <dt>Dirección</dt><dd>${esc(c.dir)}</dd>
+        <dt>Horario</dt><dd>${esc(c.horario)}</dd>
+        <dt>WhatsApp</dt><dd>387 4XX-XXXX <span style="color:var(--texto-suave);font-weight:400">(ejemplo)</span></dd>
+      </dl>
+      <span class="rotulo rotulo--monte">${ofertas.length ? "Su oferta de esta semana" : "Esta semana no publicó ofertas"}</span>
+      ${ofertas.map(o => tarjeta(o, false)).join("")}
+      <span class="boton boton--principal panel__wa">Escribile por WhatsApp</span>
+    </div>`;
+  panel.hidden = false;
+  document.getElementById("velo").hidden = false;
+  document.getElementById("cerrar").focus();
+}
+
+function cerrarFicha() {
+  document.getElementById("panel").hidden = true;
+  document.getElementById("velo").hidden = true;
+  document.querySelectorAll(".pin--activo").forEach(p => p.classList.remove("pin--activo"));
+  if (ultimoFoco) ultimoFoco.focus();
+}
+
+document.addEventListener("click", e => {
+  if (e.target.closest("#cerrar") || e.target.id === "velo") return cerrarFicha();
+  const f = e.target.closest(".filtro");
+  if (f) { rubro = f.dataset.rubro; pintarFiltros(); pintarGrilla(); return; }
+  if (e.target.closest("#panel")) return;
+  const el = e.target.closest("[data-comercio]");
+  if (el) abrirFicha(+el.dataset.comercio);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !document.getElementById("panel").hidden) return cerrarFicha();
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches(".publicacion, .pin")) {
+    e.preventDefault(); abrirFicha(+e.target.dataset.comercio);
+  }
+});
+document.getElementById("solo-hoy").addEventListener("change", e => { soloHoy = e.target.checked; pintarGrilla(); });
+document.getElementById("buscar").addEventListener("input", e => {
+  busqueda = e.target.value; pintarGrilla();
+});
+
+document.getElementById("c-ofertas").textContent = OFERTAS.length;
+document.getElementById("c-hoy").textContent = OFERTAS.filter(o => o.vence === 0).length;
+document.getElementById("c-comercios").textContent = COMERCIOS.length;
+// Carrusel: rota solo entre las ofertas que vencen hoy, cada 3 s. Tocar una flecha o un punto reinicia la cuenta; con la ficha abierta, espera.
+const DE_HOY = OFERTAS.filter(o => o.vence === 0);
+let actual = 0, reloj = null;
+document.getElementById("puntos").innerHTML = DE_HOY.map((o, i) =>
+  `<button type="button" class="carrusel__punto" data-i="${i}" aria-label="Ver oferta ${i + 1}: ${esc(o.producto)}"></button>`).join("");
+function mostrar(i) {
+  actual = (i + DE_HOY.length) % DE_HOY.length;
+  document.getElementById("destacada").innerHTML = tarjeta(DE_HOY[actual], true);
+  document.querySelectorAll(".carrusel__punto").forEach((p, j) => p.setAttribute("aria-current", j === actual));
+}
+function arrancar() {
+  clearInterval(reloj);
+  if (DE_HOY.length > 1) reloj = setInterval(() => { if (document.getElementById("panel").hidden) mostrar(actual + 1); }, 3000);
+}
+document.getElementById("anterior").addEventListener("click", () => { mostrar(actual - 1); arrancar(); });
+document.getElementById("siguiente").addEventListener("click", () => { mostrar(actual + 1); arrancar(); });
+document.getElementById("puntos").addEventListener("click", e => {
+  const p = e.target.closest(".carrusel__punto"); if (p) { mostrar(+p.dataset.i); arrancar(); }
+});
+mostrar(0);
+arrancar();
+pintarPines();
+pintarFiltros();
+pintarGrilla();
+pintarFichas();
+</script>
