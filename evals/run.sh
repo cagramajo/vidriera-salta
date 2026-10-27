@@ -9,6 +9,7 @@ failed=0
 ok() { printf 'PASS %s\n' "$1"; passed=$((passed + 1)); }
 ko() { printf 'FAIL %s\n' "$1"; failed=$((failed + 1)); }
 ev() { printf '     | %s\n' "$1"; }
+pend() { printf 'PEND %s\n' "$1"; }
 
 # shellcheck source=evals/casos.sh
 . "$(dirname "$0")/casos.sh"
@@ -164,6 +165,58 @@ d3() { # D3 el mapa es el SVG aprobado
   if [ -z "$bad" ]; then ok "D3 svg role=img con aria-label, sin zona__calle, #f59bbe, sin cuadrícula"; else ko "D3:$bad"; fi
 }
 
+# --- Spec 004 ---
+
+v_unit() { # v_unit <V#> <descripción>: corre en lib/vidriera.test.ts los tests cuyo nombre empieza con V#
+  if npx vitest run lib/vidriera.test.ts -t "$1 " >"$TMP/$1.log" 2>&1; then
+    ok "$1 $2"; ev "$(grep -E 'Tests ' "$TMP/$1.log")"
+  else ko "$1 falla"; tail -15 "$TMP/$1.log" | sed 's/^/     | /'; fi
+}
+
+v_pw() { # v_pw <V#> <caso> <descripción>: chequeo con Playwright sobre /vidriera
+  local out; out="$(node evals/check-vidriera.mjs "$2" "$BASE" 2>&1)"
+  local rc=$?
+  printf '%s
+' "$out" | sed 's/^/     | /'
+  if [ $rc -eq 0 ]; then ok "$1 $3"; else ko "$1 falla"; fi
+}
+
+v1() { # V1 no se rompe nada: ningún chequeo previo falló
+  if [ "$failed" = "0" ]; then ok "V1 los $passed chequeos previos pasan"; else ko "V1 hay $failed chequeos previos en rojo"; fi
+}
+
+v2() { # V2 la página existe y avisa que es un ejemplo
+  local s; s="$(curl -s -o "$TMP/vidriera.html" -w '%{http_code}' "$BASE/vidriera")"
+  sed 's/<[^>]*>//g' "$TMP/vidriera.html" >"$TMP/vidriera.txt" # el h1 parte "a la vuelta" en un <em>
+  if [ "$s" = "200" ] && contiene "$TMP/vidriera.txt" 'Lo que hay hoy a la vuelta' 'Vencen hoy' 'Elegí qué buscás' 'Dónde queda cada uno'     'Los comercios del barrio' 'Comercios y ofertas de ejemplo'; then
+    ok "V2 /vidriera responde 200 y contiene los 6 textos"
+  else ko "V2 status $s, faltan:$MISSING"; fi
+}
+
+v10() { # V10 ningún WhatsApp lleva a un número real
+  local hits; hits="$(grep -rn "wa.me\|api.whatsapp" app lib)"
+  local bad=""
+  [ -n "$hits" ] && bad="$bad grep:$hits"
+  [ -n "$(grep -oE 'href="[^"]*(wa\.me|whatsapp)[^"]*"' "$TMP/vidriera.html")" ] && bad="$bad link-en-html"
+  node evals/check-vidriera.mjs v10 "$BASE" >"$TMP/v10.log" 2>&1 || bad="$bad playwright"
+  sed 's/^/     | /' "$TMP/v10.log"
+  if [ -z "$bad" ]; then ok "V10 sin wa.me ni api.whatsapp en app y lib; los botones no son links"; else ko "V10:$bad"; fi
+}
+
+v12() { # V12 logo VS en toda la web
+  curl -s "$BASE/" >"$TMP/home.html"
+  local bad=""
+  for f in "$TMP/home.html" "$TMP/vidriera.html"; do
+    grep -qE 'class="logo__marca"[^>]*>VS<' "$f" || bad="$bad sin-VS:$(basename "$f")"
+    grep -qE 'class="logo__marca"[^>]*>V<' "$f" && bad="$bad queda-V:$(basename "$f")"
+  done
+  if [ -z "$bad" ]; then ok "V12 / y /vidriera llevan el logo VS; no queda la V sola"; else ko "V12:$bad"; fi
+}
+
+v14() { # V14 la landing lleva a la vidriera
+  if grep -qF 'href="/vidriera"' "$TMP/home.html"; then ok "V14 / contiene un link a /vidriera"; else ko "V14 / no linkea a /vidriera"; fi
+}
+
 c1
 c2
 c9
@@ -171,8 +224,23 @@ c10
 c11
 if [ -d .next ] && start_server; then
   c3; c4; c5; c6; c7; c8; c12; d2; d3
+  v1; v2
+  v_unit V3 "los datos de ejemplo son los del mock (8 comercios, 8 ofertas)"
+  v_unit V4 "el vencimiento es relativo a hoy"
+  v_unit V5 "abierto o cerrado se calcula del horario en hora de Salta"
+  v_unit V6 "el contador cuenta: 8 ofertas, 3 vencen hoy, 8 comercios"
+  v_pw V7 v7 "buscar y filtrar funciona"
+  v_pw V8 v8 "el carrusel pasa solo y con flechas"
+  v_pw V9 v9 "mapa con 8 puntos, ficha, Cerrar/Escape y foco"
+  v10
+  v_pw V11 v11 "los llamados a sumarse van a /#formulario con tipo comercio"
+  v12
+  v_pw V13 v13 "a 390 px el encabezado va en una fila y no hay desborde"
+  v14
+  pend "V15 rúbrica de Edu en Ready to Release (capturas: npm run capturas)"
+  pend "V16 revisión adversarial de otro modelo (hallazgos en la spec, Evidencia)"
 else
-  ko "C3-C8, C12 no se pudieron correr: sin servidor"
+  ko "C3-C8, C12, V1-V14 no se pudieron correr: sin servidor"
 fi
 stop_server
 

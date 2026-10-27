@@ -70,3 +70,16 @@
 **Por qué**: con los nombres completos a 38 unidades medían unos 7,6 px a 390 px y no se leían; abreviados caben a 50 unidades (unos 10 px) sin pisarse entre sí, con las calles rosas ni con el punto. Lo decidió Edu el 2026-10-19 al ver las capturas.
 **Reemplaza a**: el texto de los rótulos del dibujo aprobado en el boceto B (nombres completos).
 **La invalidaría**: que el mapa se agrande en celular o se pase a un dibujo con más espacio para los rótulos.
+
+## 2026-10-27 · [spec 004] El dibujo de la zona es un componente compartido y los puntos de la vidriera van encima
+
+**Qué se decide**: `app/components/ZonaMapa.tsx` contiene el `<svg>` aprobado y lo usan `Neighbors.tsx` y `/vidriera`; la vidriera dibuja los puntos como `children`, sin tocar los `path`. Las clases del dibujo siguen siendo `.zona__*`.
+**Por qué**: dos copias del dibujo podían divergir; así el eval V9 y D3 miran el mismo contorno. Reemplaza el "un solo mapa en el componente" de la decisión de la spec 003 solo en el lugar del código, no en la regla de que `docs/design/mapa-zona.svg` es la fuente.
+**La invalidaría**: que la vidriera necesite un dibujo distinto al de la landing.
+
+## 2026-10-27 · [spec 004] Los ejemplos de la vidriera viven en `lib/vidriera-ejemplo.ts` y las páginas nuevas no se prerenderizan con la fecha del build
+
+**Qué se decide**: fecha y hora se calculan en el navegador en hora de Salta; el HTML estático no muestra día de la semana ni Abierto/Cerrado.
+**Por qué**: una página estática con la fecha del build mostraría vencimientos y horarios vencidos; calcular al montar mantiene la página estática y correcta.
+**La invalidaría**: que los datos pasen a Supabase con render en el servidor.
+

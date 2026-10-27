@@ -89,4 +89,109 @@ el logo a "VS" en toda la web.
 
 ## Evidencia
 
-<!-- La completa el agente: salida de evals/run.sh, capturas, hallazgos del revisor y qué se hizo con cada uno. -->
+Corrida de `evals/run.sh` sobre la rama `spec-004` (2026-10-27), salida completa:
+
+```
+PASS C1 npm ci && npm run build sale con 0
+PASS C2 npm test sale con 0
+     |       Tests  42 passed (42)
+PASS C9 tests de normalizarFuente
+     |       Tests  13 passed (13)
+PASS C10 RLS activada, insert para anon, ninguna otra policy
+PASS C11 sin .env versionado ni secretos (specs excluida: nombra el patrón en su texto)
+PASS C3 la página contiene las 15 cadenas del handoff
+PASS C4 name= de los 5 campos y un label for= por cada campo visible
+PASS C5 el CSS compilado contiene los 5 colores Yungas
+     | sin-consentimiento -> 400
+     | consentimiento-false -> 400
+     | email-sin-arroba -> 400
+     | nombre-vacio -> 400
+     | tipo-invalido -> 400
+PASS C6 los 5 casos inválidos responden 400
+     | status 200, cuerpo {"ok":true}
+PASS C7 la trampa responde 200 {"ok":true}
+     | status 503
+PASS C8 lead válido sin base responde 503
+PASS C12 a 390 px: scrollWidth=390
+PASS D2 sin "5 cuadras"; los tres textos nuevos están
+PASS D3 svg role=img con aria-label, sin zona__calle, #f59bbe, sin cuadrícula
+PASS V1 los 14 chequeos previos pasan
+PASS V2 /vidriera responde 200 y contiene los 6 textos
+PASS V3 los datos de ejemplo son los del mock (8 comercios, 8 ofertas)
+     |       Tests  4 passed | 17 skipped (21)
+PASS V4 el vencimiento es relativo a hoy
+     |       Tests  5 passed | 16 skipped (21)
+PASS V5 abierto o cerrado se calcula del horario en hora de Salta
+     |       Tests  6 passed | 15 skipped (21)
+PASS V6 el contador cuenta: 8 ofertas, 3 vencen hoy, 8 comercios
+     |       Tests  1 passed | 20 skipped (21)
+     | ok   sin filtros hay 8 tarjetas (8)
+     | ok   filtro Carnicería -> 1 tarjeta (1)
+     | ok   Solo las que vencen hoy -> 3 tarjetas (3)
+     | ok   buscar yerba -> 1 tarjeta (1)
+     | ok   filtro sin resultados (Almacén + vencen hoy) -> Nada por acá, por ahora
+     | ok   buscar algo que no existe -> Nada por acá, por ahora
+PASS V7 buscar y filtrar funciona
+     | ok   la oferta visible cambia sola en <= 4 s (2598 ms)
+     | ok   el carrusel tiene 3 puntos (las 3 ofertas que vencen hoy) (3)
+     | ok   con las flechas se recorren las 3 ofertas de hoy (Asado de novillo | Tomate perita | Gaseosa 2,25 L + alfajor)
+     | ok   la flecha anterior la cambia a mano
+     | ok   todas las del carrusel dicen Solo hoy (Solo hoy)
+PASS V8 el carrusel pasa solo y con flechas
+     | ok   hay 8 puntos sobre el mapa (8)
+     | ok   el contorno de la zona es el de mapa-zona.svg
+     | ok   la ficha muestra el nombre
+     | ok   la ficha muestra la dirección
+     | ok   la ficha muestra el horario
+     | ok   la ficha dice Abierto ahora o Cerrado ahora (Abierto ahora)
+     | ok   la ficha muestra 387 4XX-XXXX (ejemplo)
+     | ok   la ficha no tiene links (el WhatsApp no es un link) (0)
+     | ok   Cerrar la cierra
+     | ok   al cerrar con el botón el foco vuelve al punto (data-comercio=1)
+     | ok   Escape la cierra
+     | ok   al cerrar con Escape el foco vuelve al punto (data-comercio=1)
+     | ok   con Enter sobre el punto 6 abre Kiosco Los Primos
+     | ok   Kiosco 24 horas dice Abierto ahora
+     | ok   el foco vuelve al punto 6 (data-comercio=6)
+     | ok   desde el directorio el foco vuelve a la ficha chica (ficha-mini)
+PASS V9 mapa con 8 puntos, ficha, Cerrar/Escape y foco
+     | ok   ningún link a WhatsApp en la página (0)
+     | ok   hay botones Escribile por WhatsApp (9)
+     | ok   ninguno es un link ni un botón que navegue
+PASS V10 sin wa.me ni api.whatsapp en app y lib; los botones no son links
+     | ok   a 1440 px el llamado dice "Publicá tu oferta" (Publicá tu oferta)
+     | ok   "Publicá tu oferta" lleva a /#formulario con tipo comercio (http://localhost:3100/#formulario tipo=comercio)
+     | ok   a 390 px el llamado dice "Publicá" (Publicá)
+     | ok   "Publicá" lleva a /#formulario con tipo comercio (http://localhost:3100/#formulario tipo=comercio)
+     | ok   a 1440 px el llamado dice "Sumá tu comercio" (Sumá tu comercio)
+     | ok   "Sumá tu comercio" lleva a /#formulario con tipo comercio (http://localhost:3100/#formulario tipo=comercio)
+PASS V11 los llamados a sumarse van a /#formulario con tipo comercio
+PASS V12 / y /vidriera llevan el logo VS; no queda la V sola
+     | ok   logo, buscador y Publicá en una fila (mismo top ±4 px) (top logo=68 buscador=66 boton=66)
+     | ok   el botón dice Publicá (Publicá)
+     | ok   scrollWidth <= 390 (390)
+     | ok   con la ficha abierta scrollWidth <= 390 (390)
+PASS V13 a 390 px el encabezado va en una fila y no hay desborde
+PASS V14 / contiene un link a /vidriera
+PEND V15 rúbrica de Edu en Ready to Release (capturas: npm run capturas)
+PEND V16 revisión adversarial de otro modelo (hallazgos en la spec, Evidencia)
+28 pasan · 0 fallan
+```
+
+Capturas (`npm run capturas`), en `docs/research/2026-10-27-capturas/`: `vidriera-390.png`, `vidriera-1440.png`,
+`vidriera-ficha-390.png`, `vidriera-ficha-1440.png` (y `landing-390.png`, `landing-1440.png`, con el logo VS).
+Los puntos del mapa a 390 px se revisaron ampliados (3x): legibles, ninguno toca las calles ni sus nombres; no se activó la condición de parada.
+
+Desvíos respecto de la spec y del mock:
+
+- V2: el h1 parte "a la vuelta" en un `<em>`; el chequeo busca los textos sobre el HTML sin etiquetas.
+- Aviso de ejemplo: el mock decía "Mock de la vidriera · comercios, precios y direcciones de ejemplo"; va "Comercios y ofertas de ejemplo · los precios, direcciones y teléfonos son inventados" (lo exige V2).
+- Bajada: "todas a menos de cinco cuadras" pasó a "todas a pocas cuadras" (decidido en la spec).
+- El carrusel no anuncia sus cambios a lectores de pantalla (el mock tenía `aria-live="polite"` en el escenario): rotando cada 3 s lo repetiría sin parar. Las flechas y los puntos tienen `aria-label`.
+- La ficha atrapa el foco (Tab) y el resto de la página queda `inert` mientras está abierta; el mock no lo hacía.
+- Antes de montarse (HTML estático) las etiquetas de 2 o más días dicen "Esta semana" y no se muestra Abierto/Cerrado; al montarse en el navegador se completan con la hora de Salta.
+- Se agregó un link "Ver la vidriera" al menú de la landing (V14).
+- V15 y V16 quedan pendientes: V15 es de Edu; V16 la corre la sesión supervisora.
+
+Revisión adversarial (V16): pendiente.
+

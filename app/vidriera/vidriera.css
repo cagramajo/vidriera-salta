@@ -1,0 +1,968 @@
+/* /vidriera (spec 004). Port del mock aprobado docs/design/mock-vidriera.html con los tokens de globals.css.
+   Lo que choca con un nombre de la landing va bajo .vd; la ficha, que vive fuera de .pagina (su
+   container-type rompería el position: fixed), repite la fuente y el color. */
+
+.vd h1,
+.vd h2,
+.vd h3 {
+  margin: 0;
+  text-wrap: balance;
+}
+
+.vd .angosto {
+  font-stretch: 68%;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.vd .contenedor {
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd *,
+  .ficha * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Aviso de ejemplo */
+.aviso {
+  background: var(--sombra);
+  color: var(--lapacho-claro);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  padding: 8px 20px;
+  letter-spacing: 0.02em;
+}
+
+/* Botones */
+.vd .boton {
+  gap: 8px;
+  padding: 0 22px;
+  font-size: 18px;
+  background: var(--niebla);
+}
+
+.vd .boton--principal {
+  background: var(--lapacho);
+  font-size: 19px;
+}
+
+.vd .boton--oscuro {
+  background: var(--sombra);
+  color: var(--niebla);
+}
+
+.vd .boton--chico {
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.vd .boton--principal.boton--chico {
+  font-size: 19px;
+}
+
+/* Encabezado */
+.vd .encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.vd .encabezado__fila {
+  justify-content: flex-start;
+  gap: 12px 20px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.vd .logo {
+  margin-right: auto;
+}
+
+.vd .logo__marca {
+  font-stretch: 62%;
+  font-size: 21px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.buscador {
+  flex: 1 1 260px;
+  max-width: 420px;
+  display: flex;
+}
+
+.buscador input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--sombra);
+  background: var(--blanco);
+  border: 2px solid var(--sombra);
+  border-radius: 6px;
+}
+
+.buscador input::placeholder {
+  color: var(--texto-suave);
+}
+
+.solo-movil {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .vd .encabezado__fila {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .vd .logo {
+    margin-right: 0;
+    flex: none;
+  }
+
+  .vd .logo__marca {
+    width: 36px;
+    height: 36px;
+    font-size: 19px;
+  }
+
+  .vd .logo__texto,
+  .solo-escritorio {
+    display: none;
+  }
+
+  .solo-movil {
+    display: inline;
+  }
+
+  .buscador {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .buscador input {
+    min-height: 40px;
+    padding: 0 10px;
+  }
+
+  .vd .encabezado .boton--chico {
+    flex: none;
+    min-height: 40px;
+    padding: 0 12px;
+  }
+
+  .vd .lateral {
+    top: 64px;
+  }
+}
+
+/* Banda de hoy */
+.hoy {
+  background: var(--monte);
+  color: var(--niebla);
+  border-bottom: 2px solid var(--sombra);
+}
+
+.hoy__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  padding-top: 44px;
+  padding-bottom: 52px;
+}
+
+.hoy__texto {
+  flex: 1 1 480px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hoy h1 {
+  font-size: clamp(42px, 6.6cqi, 92px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.hoy h1 em {
+  font-style: normal;
+  color: var(--lapacho-claro);
+}
+
+.hoy__bajada {
+  font-size: 20px;
+  max-width: 540px;
+}
+
+.contadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contador {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--niebla);
+  color: var(--sombra);
+  border: 2px solid var(--sombra);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.contador b {
+  font-weight: 900;
+  font-stretch: 68%;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--monte);
+  font-variant-numeric: tabular-nums;
+}
+
+.hoy__destacada {
+  flex: 1 1 340px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Oferta (la publicación del design system, en versión lista) */
+.oferta {
+  width: 100%;
+  background: var(--blanco);
+  color: var(--sombra);
+  border: 2px solid var(--sombra);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.oferta--abre {
+  cursor: pointer;
+}
+
+.oferta--abre:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--sombra);
+}
+
+.oferta--destacada {
+  max-width: 380px;
+  border-width: 3px;
+  box-shadow: 8px 8px 0 var(--lapacho);
+  transform: rotate(-2deg);
+}
+
+.oferta--destacada.oferta--abre:hover {
+  transform: rotate(-2deg) translate(-2px, -2px);
+  box-shadow: 10px 10px 0 var(--lapacho);
+}
+
+.oferta__cabeza {
+  padding: 12px 16px;
+  border-bottom: 2px dashed var(--sombra);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.oferta__comercio {
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.oferta__rubro {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.etiqueta {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  border: 2px solid transparent;
+}
+
+.etiqueta--hoy {
+  background: var(--lapacho-claro);
+}
+
+.etiqueta--dias {
+  background: var(--niebla);
+  border-color: var(--sombra);
+}
+
+.oferta__cuerpo {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.oferta__producto {
+  font-size: 30px;
+}
+
+.oferta--destacada .oferta__producto {
+  font-size: 40px;
+}
+
+.oferta__precio {
+  font-weight: 900;
+  font-stretch: 68%;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--monte);
+  font-variant-numeric: tabular-nums;
+}
+
+.oferta--destacada .oferta__precio {
+  font-size: 64px;
+}
+
+.oferta__unidad {
+  font-size: 22px;
+  white-space: nowrap;
+}
+
+.oferta__nota {
+  font-size: 15px;
+}
+
+.oferta__pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 16px;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.distancia {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--sombra);
+}
+
+.distancia::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lapacho);
+  border: 2px solid var(--sombra);
+}
+
+.oferta__wa {
+  margin: 0 16px 16px;
+  min-height: 44px;
+  font-size: 16px;
+}
+
+/* Cuerpo: feed + mapa */
+.cuerpo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+  padding-top: 48px;
+  padding-bottom: 64px;
+}
+
+.feed {
+  flex: 999 1 600px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.vd .lateral {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 92px;
+}
+
+.feed__cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.vd .titulo-seccion {
+  font-size: clamp(32px, 4.2cqi, 54px);
+  overflow-wrap: anywhere;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtro {
+  min-height: 44px;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 800;
+  font-size: 16px;
+  border: 2px solid var(--sombra);
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--blanco);
+  color: var(--sombra);
+}
+
+.filtro[aria-pressed="true"] {
+  background: var(--sombra);
+  color: var(--niebla);
+}
+
+.filtro .n {
+  font-weight: 600;
+  opacity: 0.7;
+  margin-left: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.interruptor {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.interruptor input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--monte);
+  margin: 0;
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.vacio {
+  padding: 28px;
+  border: 2px dashed var(--sombra);
+  border-radius: 8px;
+  background: var(--blanco);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+
+.vacio strong {
+  font-size: 22px;
+}
+
+/* Mapa: las clases .zona__* del dibujo vienen de globals.css */
+.mapa {
+  margin: 0;
+  background: var(--blanco);
+  border: 3px dashed var(--sombra);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mapa svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pin {
+  cursor: pointer;
+}
+
+.pin .pin__area {
+  fill: transparent;
+  stroke: none;
+}
+
+.pin .pin__punto {
+  fill: var(--blanco);
+  stroke: var(--sombra);
+  stroke-width: 8;
+  transition: r 0.15s ease;
+}
+
+.pin text {
+  font-family: var(--fuente-archivo), Arial, sans-serif;
+  font-weight: 900;
+  font-size: 42px;
+  fill: var(--sombra);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.pin--oferta .pin__punto {
+  fill: var(--lapacho);
+}
+
+.pin--activo .pin__punto {
+  fill: var(--sombra);
+  r: 48;
+}
+
+.pin--activo text {
+  fill: var(--niebla);
+}
+
+.pin:focus-visible {
+  outline: none;
+}
+
+.pin:focus-visible .pin__punto {
+  stroke: var(--lapacho);
+  stroke-width: 12;
+}
+
+.mapa__pie {
+  font-size: 14px;
+  color: var(--texto-suave);
+  padding: 10px 14px;
+  border-top: 2px dashed var(--sombra);
+  background: var(--blanco);
+}
+
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.leyenda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.leyenda i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--sombra);
+  display: inline-block;
+}
+
+.leyenda__oferta {
+  background: var(--lapacho);
+}
+
+.leyenda__ficha {
+  background: var(--blanco);
+}
+
+.caja-comercio {
+  background: var(--sombra);
+  color: var(--niebla);
+  border: 2px solid var(--sombra);
+  border-radius: 8px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 6px 6px 0 var(--lapacho);
+}
+
+.caja-comercio h3 {
+  font-size: 30px;
+}
+
+.caja-comercio .boton {
+  align-self: flex-start;
+}
+
+/* Carrusel de las ofertas que vencen hoy */
+.carrusel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.carrusel__escenario {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 6px 10px 12px;
+}
+
+.carrusel__escenario .oferta {
+  animation: entra 0.35s ease;
+}
+
+@keyframes entra {
+  from {
+    opacity: 0.4;
+    transform: rotate(-2deg) translateX(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(-2deg);
+  }
+}
+
+.carrusel__controles {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.carrusel__controles:hover,
+.carrusel__controles:focus-within {
+  opacity: 1;
+}
+
+.carrusel__flecha {
+  width: 36px;
+  height: 44px;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  border: 0;
+  background: none;
+  color: var(--niebla);
+  cursor: pointer;
+}
+
+.carrusel__puntos {
+  display: flex;
+}
+
+.carrusel__punto {
+  width: 20px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carrusel__punto::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--niebla);
+  opacity: 0.5;
+  transition: width 0.2s ease, opacity 0.2s ease;
+}
+
+.carrusel__punto[aria-current="true"]::before {
+  width: 18px;
+  opacity: 1;
+  background: var(--lapacho-claro);
+}
+
+/* Directorio de fichas */
+.directorio {
+  background: var(--blanco);
+  border-top: 2px solid var(--sombra);
+  border-bottom: 2px solid var(--sombra);
+}
+
+.directorio__columna {
+  padding-top: 64px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.fichas {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.ficha-mini {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--sombra);
+  background: var(--niebla);
+  border: 2px solid var(--sombra);
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.ficha-mini:hover {
+  background: var(--blanco);
+}
+
+.ficha-mini__fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ficha-mini__nombre {
+  font-size: 24px;
+}
+
+.ficha-mini__dato {
+  font-size: 15px;
+  color: var(--texto-suave);
+}
+
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.estado::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--monte);
+}
+
+.estado--cerrado {
+  color: var(--texto-suave);
+}
+
+.estado--cerrado::before {
+  background: var(--blanco);
+  border: 2px solid var(--texto-suave);
+}
+
+.estado--claro {
+  color: var(--niebla);
+}
+
+.num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--sombra);
+  font-weight: 900;
+  font-size: 13px;
+  background: var(--blanco);
+  flex: none;
+}
+
+/* Ficha del comercio (panel lateral, fuera de .pagina) */
+.velo {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--sombra) 55%, transparent);
+  z-index: 40;
+}
+
+.ficha {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(460px, 100%);
+  z-index: 50;
+  background: var(--niebla);
+  color: var(--sombra);
+  font-family: var(--fuente-archivo), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  border-left: 3px solid var(--sombra);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.ficha p,
+.ficha h2 {
+  margin: 0;
+}
+
+.ficha .angosto {
+  font-stretch: 68%;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.ficha .rotulo {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ficha__cabeza {
+  background: var(--monte);
+  color: var(--niebla);
+  padding: 22px 22px 26px;
+  border-bottom: 2px solid var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ficha__cerrar {
+  align-self: flex-end;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 14px;
+  font: inherit;
+  font-weight: 800;
+  background: var(--niebla);
+  color: var(--sombra);
+  border: 2px solid var(--sombra);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ficha__nombre {
+  font-size: 44px;
+  overflow-wrap: anywhere;
+}
+
+.ficha__cuerpo {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  background: var(--blanco);
+  border: 2px solid var(--sombra);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.datos dt {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-suave);
+  padding-top: 2px;
+}
+
+.datos dd {
+  margin: 0;
+  font-weight: 600;
+  min-width: 0;
+}
+
+.datos__ejemplo {
+  color: var(--texto-suave);
+  font-weight: 400;
+}
+
+.ficha__voz {
+  font-size: 18px;
+  border-left: 4px solid var(--lapacho);
+  padding-left: 12px;
+}
+
+.ficha__wa {
+  width: 100%;
+}
+
+.ficha .boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px;
+  font-weight: 800;
+  border: 2px solid var(--sombra);
+  border-radius: 6px;
+  color: var(--sombra);
+}
+
+.ficha .boton--principal {
+  background: var(--lapacho);
+  font-size: 19px;
+}
+
+.ficha .boton--oscuro {
+  background: var(--sombra);
+  color: var(--niebla);
+  font-size: 16px;
+}
+
+.ficha .oferta__wa {
+  min-height: 44px;
+  margin: 0 16px 16px;
+}

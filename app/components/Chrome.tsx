@@ -5,12 +5,13 @@ export function Header() {
     <header className="encabezado">
       <div className="contenedor encabezado__fila">
         <a href="#inicio" className="logo">
-          <span className="logo__marca" aria-hidden="true">V</span>
+          <span className="logo__marca" aria-hidden="true">VS</span>
           <span className="logo__texto">Vidriera Salta</span>
         </a>
         <nav aria-label="Secciones" className="menu">
           <a href="#comercios" className="menu__link">Para comercios</a>
           <a href="#vecinos" className="menu__link">Para vecinos</a>
+          <a href="/vidriera" className="menu__link">Ver la vidriera</a>
           <ElegirTipo tipo="comercio" className="boton boton--principal boton--chico">Sumá tu comercio</ElegirTipo>
         </nav>
       </div>

@@ -148,8 +148,10 @@ input:focus-visible {
   border: 2px solid var(--sombra);
   border-radius: 6px;
   font-weight: 900;
-  font-stretch: 70%;
-  font-size: 22px;
+  font-stretch: 62%;
+  font-size: 21px;
+  letter-spacing: -0.01em;
+  line-height: 1;
 }
 
 .logo__texto {
