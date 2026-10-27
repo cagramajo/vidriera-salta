@@ -2,15 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ZonaMapa } from "@/app/components/ZonaMapa";
-import { contadores, cuadras, estaAbierto, fechaLarga, filtrarOfertas } from "@/lib/vidriera";
+import { contadores, cuadras, estaAbierto, fechaLarga, filtrarOfertas, venceHoy, vigentes } from "@/lib/vidriera";
 import { COMERCIOS, OFERTAS } from "@/lib/vidriera-ejemplo";
 import { Carrusel } from "./Carrusel";
 import { Ficha } from "./Ficha";
 import { Oferta, type Abrir } from "./Oferta";
 
-const RUBROS = ["Todo", ...Array.from(new Set(OFERTAS.map((o) => COMERCIOS.find((c) => c.id === o.comercio)!.rubro)))];
-const DE_HOY = OFERTAS.filter((o) => o.vence === 0);
-const FORMULARIO = "/#formulario";
+const ACTIVAS = vigentes(OFERTAS);
+const RUBROS = ["Todo", ...Array.from(new Set(ACTIVAS.map((o) => COMERCIOS.find((c) => c.id === o.comercio)!.rubro)))];
+const DE_HOY = ACTIVAS.filter(venceHoy);
+const FORMULARIO = "/?tipo=comercio#formulario";
 
 export function VidrieraApp() {
   // "Hoy" y "ahora" se calculan en el navegador, en hora de Salta: la página sale estática y no muestra la fecha del build.
@@ -105,10 +106,7 @@ export function VidrieraApp() {
                 <span className="contador"><b>{cuenta.comercios}</b> comercios</span>
               </div>
             </div>
-            <div className="hoy__destacada">
-              <span className="rotulo rotulo--claro">Vencen hoy · no te las pierdas</span>
-              <Carrusel ofertas={DE_HOY} comercios={COMERCIOS} ahora={ahora} pausado={abierta !== null} abrir={abrir} />
-            </div>
+            <Carrusel ofertas={DE_HOY} comercios={COMERCIOS} ahora={ahora} pausado={abierta !== null} abrir={abrir} />
           </div>
         </section>
 
@@ -136,12 +134,15 @@ export function VidrieraApp() {
                 >
                   {r}
                   <span className="n">
-                    {r === "Todo" ? OFERTAS.length : OFERTAS.filter((o) => comercioDe(o.comercio).rubro === r).length}
+                    {r === "Todo" ? ACTIVAS.length : ACTIVAS.filter((o) => comercioDe(o.comercio).rubro === r).length}
                   </span>
                 </button>
               ))}
             </div>
-            <div className="grilla" aria-live="polite">
+            <p className="solo-lector" role="status">
+              {visibles.length === 0 ? "Nada por acá, por ahora" : visibles.length === 1 ? "1 oferta" : `${visibles.length} ofertas`}
+            </p>
+            <div className="grilla">
               {visibles.length ? (
                 visibles.map((o) => (
                   <Oferta key={o.producto} oferta={o} comercio={comercioDe(o.comercio)} ahora={ahora} abrir={abrir} />
@@ -209,7 +210,7 @@ export function VidrieraApp() {
             </div>
             <ul className="fichas">
               {COMERCIOS.map((c) => {
-                const n = OFERTAS.filter((o) => o.comercio === c.id).length;
+                const n = ACTIVAS.filter((o) => o.comercio === c.id).length;
                 const abierto = ahora ? estaAbierto(c.horario, ahora) : null;
                 return (
                   <li key={c.id}>
@@ -251,7 +252,7 @@ export function VidrieraApp() {
       {fichaAbierta ? (
         <Ficha
           comercio={fichaAbierta}
-          ofertas={OFERTAS.filter((o) => o.comercio === fichaAbierta.id)}
+          ofertas={ACTIVAS.filter((o) => o.comercio === fichaAbierta.id)}
           ahora={ahora}
           cerrar={cerrar}
         />

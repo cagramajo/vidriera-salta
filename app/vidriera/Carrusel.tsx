@@ -26,6 +26,7 @@ export function Carrusel({ ofertas, comercios, ahora, pausado, abrir }: Props) {
     return () => clearTimeout(reloj);
   }, [actual, n, pausado]);
 
+  // Sin ofertas que venzan hoy, no queda nada del bloque (ni el rótulo).
   if (n === 0) return null;
   const oferta = ofertas[actual % n];
   const comercio = comercios.find((c) => c.id === oferta.comercio);
@@ -33,29 +34,34 @@ export function Carrusel({ ofertas, comercios, ahora, pausado, abrir }: Props) {
   const ir = (i: number) => setActual((i + n) % n);
 
   return (
-    <div className="carrusel" role="region" aria-roledescription="carrusel" aria-label="Ofertas que vencen hoy">
-      <div className="carrusel__escenario">
-        <Oferta key={actual} oferta={oferta} comercio={comercio} ahora={ahora} destacada abrir={abrir} />
-      </div>
-      <div className="carrusel__controles">
-        <button type="button" className="carrusel__flecha" aria-label="Oferta anterior" onClick={() => ir(actual - 1)}>
-          ←
-        </button>
-        <div className="carrusel__puntos">
-          {ofertas.map((o, i) => (
-            <button
-              key={o.producto}
-              type="button"
-              className="carrusel__punto"
-              aria-label={`Ver oferta ${i + 1}: ${o.producto}`}
-              aria-current={i === actual}
-              onClick={() => ir(i)}
-            />
-          ))}
+    <div className="hoy__destacada">
+      <span className="rotulo rotulo--claro">Vencen hoy · no te las pierdas</span>
+      <div className="carrusel" role="region" aria-roledescription="carrusel" aria-label="Ofertas que vencen hoy">
+        <div className="carrusel__escenario">
+          <Oferta key={actual} oferta={oferta} comercio={comercio} ahora={ahora} destacada abrir={abrir} />
         </div>
-        <button type="button" className="carrusel__flecha" aria-label="Oferta siguiente" onClick={() => ir(actual + 1)}>
-          →
-        </button>
+        {n > 1 ? (
+          <div className="carrusel__controles">
+            <button type="button" className="carrusel__flecha" aria-label="Oferta anterior" onClick={() => ir(actual - 1)}>
+              ←
+            </button>
+            <div className="carrusel__puntos">
+              {ofertas.map((o, i) => (
+                <button
+                  key={o.producto}
+                  type="button"
+                  className="carrusel__punto"
+                  aria-label={`Ver oferta ${i + 1}: ${o.producto}`}
+                  aria-current={i === actual}
+                  onClick={() => ir(i)}
+                />
+              ))}
+            </div>
+            <button type="button" className="carrusel__flecha" aria-label="Oferta siguiente" onClick={() => ir(actual + 1)}>
+              →
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

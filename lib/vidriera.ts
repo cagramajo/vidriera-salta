@@ -32,9 +32,16 @@ function fechaMasDias(ahora: Date, dias: number): Date {
   return new Date(Date.UTC(anio, mes - 1, dia + dias));
 }
 
+/** Una sola regla para "vence hoy" y "vencida": `vence` son los días desde hoy. */
+export const venceHoy = (o: Oferta): boolean => o.vence === 0;
+export const estaVigente = (o: Oferta): boolean => o.vence >= 0;
+/** Las ofertas vencidas (`vence < 0`) no se muestran en ningún lado. */
+export const vigentes = (ofertas: Oferta[]): Oferta[] => ofertas.filter(estaVigente);
+
 /** "Solo hoy", "Hasta mañana" o "Hasta el <día>", según los días que faltan desde hoy en Salta. */
 export function etiquetaVence(vence: number, ahora: Date): string {
-  if (vence <= 0) return "Solo hoy";
+  if (vence < 0) return "Venció";
+  if (vence === 0) return "Solo hoy";
   if (vence === 1) return "Hasta mañana";
   return `Hasta el ${DIAS[fechaMasDias(ahora, vence).getUTCDay()]}`;
 }
@@ -67,9 +74,10 @@ export function estaAbierto(horario: string, ahora: Date): boolean {
 }
 
 export function contadores(ofertas: Oferta[], comercios: Comercio[]) {
+  const activas = vigentes(ofertas);
   return {
-    ofertas: ofertas.length,
-    vencenHoy: ofertas.filter((o) => o.vence === 0).length,
+    ofertas: activas.length,
+    vencenHoy: activas.filter(venceHoy).length,
     comercios: comercios.length,
   };
 }
@@ -78,11 +86,11 @@ export type Filtro = { rubro: string; soloHoy: boolean; busqueda: string };
 
 export function filtrarOfertas(ofertas: Oferta[], comercios: Comercio[], filtro: Filtro): Oferta[] {
   const q = filtro.busqueda.trim().toLowerCase();
-  return ofertas.filter((o) => {
+  return vigentes(ofertas).filter((o) => {
     const c = comercios.find((x) => x.id === o.comercio);
     if (!c) return false;
     if (filtro.rubro !== "Todo" && c.rubro !== filtro.rubro) return false;
-    if (filtro.soloHoy && o.vence !== 0) return false;
+    if (filtro.soloHoy && !venceHoy(o)) return false;
     if (q && !`${o.producto} ${c.nombre} ${c.rubro} ${o.nota}`.toLowerCase().includes(q)) return false;
     return true;
   });

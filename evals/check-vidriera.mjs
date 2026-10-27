@@ -37,12 +37,16 @@ const casos = {
     await page.fill("#buscar", "");
     await page.click('.filtro[data-rubro="Almacén"]');
     await page.check("#solo-hoy");
-    const vacio = await page.getByText("Nada por acá, por ahora").count();
+    const vacio = await page.locator(".vacio", { hasText: "Nada por acá, por ahora" }).count();
     comprobar("filtro sin resultados (Almacén + vencen hoy) -> Nada por acá, por ahora", vacio === 1 && (await tarjetas(page)) === 0);
     await page.uncheck("#solo-hoy");
     await page.click('.filtro[data-rubro="Todo"]');
     await page.fill("#buscar", "zzzz");
-    comprobar("buscar algo que no existe -> Nada por acá, por ahora", (await page.getByText("Nada por acá, por ahora").count()) === 1);
+    comprobar("buscar algo que no existe -> Nada por acá, por ahora", (await page.locator(".vacio", { hasText: "Nada por acá, por ahora" }).count()) === 1);
+    comprobar("la grilla ya no es una región en vivo", (await page.locator(".grilla[aria-live]").count()) === 0);
+    await page.fill("#buscar", "yerba");
+    const estado = await page.locator('[role="status"].solo-lector').innerText();
+    comprobar("el aviso en vivo es el conteo corto", estado === "1 oferta", estado);
     await page.close();
   },
 
@@ -142,6 +146,20 @@ const casos = {
   },
 
   async v11(browser) {
+    // 1) El formulario obedece a ?tipo=: llegando con vecino queda vecino, o sea que el valor por defecto no tapa nada.
+    const base0 = new URL(url).origin;
+    const prueba = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    await prueba.goto(`${base0}/?tipo=vecino#formulario`, { waitUntil: "networkidle" });
+    await prueba.waitForSelector('input[name="tipo"]', { state: "attached" });
+    const conVecino = await prueba.locator('input[name="tipo"]').inputValue();
+    comprobar("la landing con ?tipo=vecino deja elegido vecino (el parámetro manda)", conVecino === "vecino", `tipo=${conVecino}`);
+    await prueba.goto(`${base0}/?tipo=otra-cosa#formulario`, { waitUntil: "networkidle" });
+    await prueba.waitForSelector('input[name="tipo"]', { state: "attached" });
+    const conBasura = await prueba.locator('input[name="tipo"]').inputValue();
+    comprobar("un ?tipo= desconocido se ignora (queda el valor por defecto)", conBasura === "comercio", `tipo=${conBasura}`);
+    await prueba.close();
+
+    // 2) Cada llamado de la vidriera lleva ?tipo=comercio y, al seguirlo, el formulario queda en comercio.
     const intentos = [
       { ancho: 1440, texto: "Publicá tu oferta", sel: ".encabezado .boton" },
       { ancho: 390, texto: "Publicá", sel: ".encabezado .boton" },
@@ -151,12 +169,14 @@ const casos = {
       const page = await abrir(browser, ancho);
       const boton = page.locator(sel).first();
       comprobar(`a ${ancho} px el llamado dice "${texto}"`, (await boton.innerText()).trim() === texto, (await boton.innerText()).trim());
+      const href = await boton.getAttribute("href");
+      comprobar(`"${texto}" apunta a /#formulario y pide tipo=comercio`, /^\/\?tipo=comercio#formulario$/.test(href ?? ""), href ?? "");
       await boton.click();
-      await page.waitForURL(/\/#formulario$/);
+      await page.waitForURL(/#formulario$/);
       await page.waitForSelector('input[name="tipo"]', { state: "attached" });
       const tipo = await page.locator('input[name="tipo"]').inputValue();
       const marcado = await page.getByRole("button", { name: "Tengo un comercio" }).getAttribute("aria-pressed");
-      comprobar(`"${texto}" lleva a /#formulario con tipo comercio`, tipo === "comercio" && marcado === "true", `${page.url()} tipo=${tipo}`);
+      comprobar(`"${texto}" deja elegido comercio`, tipo === "comercio" && marcado === "true", `${page.url()} tipo=${tipo}`);
       await page.close();
     }
   },

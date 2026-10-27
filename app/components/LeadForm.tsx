@@ -35,7 +35,11 @@ export function LeadForm() {
   const [errorEnvio, setErrorEnvio] = useState(false);
 
   useEffect(() => {
-    setFuente(new URLSearchParams(window.location.search).get("fuente") ?? "");
+    const params = new URLSearchParams(window.location.search);
+    setFuente(params.get("fuente") ?? "");
+    // `?tipo=comercio|vecino` elige el tipo al llegar desde otra página (la vidriera).
+    const pedido = params.get("tipo");
+    if (pedido === "comercio" || pedido === "vecino") setTipo(pedido);
     const alElegir = (e: Event) => setTipo((e as CustomEvent<Tipo>).detail);
     window.addEventListener(EVENTO_TIPO, alElegir);
     return () => window.removeEventListener(EVENTO_TIPO, alElegir);

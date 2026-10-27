@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { COMERCIOS, OFERTAS } from "./vidriera-ejemplo";
-import { contadores, estaAbierto, etiquetaVence, fechaLarga, filtrarOfertas } from "./vidriera";
+import { contadores, estaVigente, estaAbierto, etiquetaVence, fechaLarga, filtrarOfertas, venceHoy, vigentes } from "./vidriera";
 
 // Hora de Salta = UTC-3, sin horario de verano. "2026-10-27" es martes.
 const salta = (fecha: string, hora: string) => new Date(`${fecha}T${hora}:00-03:00`);
@@ -117,4 +117,27 @@ describe("filtrarOfertas", () => {
     expect(f({ busqueda: "pocho" })).toHaveLength(1);
   });
   it("filtros combinados sin resultados", () => expect(f({ rubro: "Almacén", soloHoy: true })).toHaveLength(0));
+});
+
+describe("V4 una sola regla de vencimiento: vence -1 es una oferta vencida y no se muestra", () => {
+  const vencida = { ...OFERTAS[0], producto: "Vencida de ayer", vence: -1 };
+  const todas = [...OFERTAS, vencida];
+  it("venceHoy y estaVigente", () => {
+    expect(venceHoy(vencida)).toBe(false);
+    expect(estaVigente(vencida)).toBe(false);
+    expect(venceHoy(OFERTAS[0])).toBe(true);
+    expect(vigentes(todas)).toHaveLength(8);
+  });
+  it("no entra en los contadores", () => {
+    expect(contadores(todas, COMERCIOS)).toEqual({ ofertas: 8, vencenHoy: 3, comercios: 8 });
+  });
+  it("no entra en ningún filtro, ni en Solo hoy ni en la búsqueda", () => {
+    const f = (p: object) => filtrarOfertas(todas, COMERCIOS, { rubro: "Todo", soloHoy: false, busqueda: "", ...p });
+    expect(f({})).toHaveLength(8);
+    expect(f({ soloHoy: true })).toHaveLength(3);
+    expect(f({ busqueda: "vencida" })).toHaveLength(0);
+  });
+  it("la etiqueta de una vencida no dice Solo hoy", () => {
+    expect(etiquetaVence(-1, salta("2026-10-27", "12:00"))).toBe("Venció");
+  });
 });

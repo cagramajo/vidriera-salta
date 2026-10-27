@@ -167,8 +167,8 @@ d3() { # D3 el mapa es el SVG aprobado
 
 # --- Spec 004 ---
 
-v_unit() { # v_unit <V#> <descripción>: corre en lib/vidriera.test.ts los tests cuyo nombre empieza con V#
-  if npx vitest run lib/vidriera.test.ts -t "$1 " >"$TMP/$1.log" 2>&1; then
+v_unit() { # v_unit <V#> <descripción>: corre en toda la suite los tests cuyo nombre empieza con V#
+  if npx vitest run -t "$1 " >"$TMP/$1.log" 2>&1; then
     ok "$1 $2"; ev "$(grep -E 'Tests ' "$TMP/$1.log")"
   else ko "$1 falla"; tail -15 "$TMP/$1.log" | sed 's/^/     | /'; fi
 }
@@ -231,14 +231,17 @@ if [ -d .next ] && start_server; then
   v_unit V6 "el contador cuenta: 8 ofertas, 3 vencen hoy, 8 comercios"
   v_pw V7 v7 "buscar y filtrar funciona"
   v_pw V8 v8 "el carrusel pasa solo y con flechas"
+  v_unit V8 "el carrusel con 0 ofertas no deja nada y con 1 no tiene flechas ni puntos"
   v_pw V9 v9 "mapa con 8 puntos, ficha, Cerrar/Escape y foco"
   v10
-  v_pw V11 v11 "los llamados a sumarse van a /#formulario con tipo comercio"
+  v_pw V11 v11 "los llamados a sumarse van a /?tipo=comercio#formulario y dejan comercio"
   v12
   v_pw V13 v13 "a 390 px el encabezado va en una fila y no hay desborde"
   v14
   pend "V15 rúbrica de Edu en Ready to Release (capturas: npm run capturas)"
-  pend "V16 revisión adversarial de otro modelo (hallazgos en la spec, Evidencia)"
+  if grep -q 'Revisión adversarial (V16): hecha' specs/done/004-vidriera-v1.md 2>/dev/null; then
+    ok "V16 revisión adversarial hecha: hallazgos y su destino en la Evidencia de specs/done/004-vidriera-v1.md"
+  else ko "V16 falta la revisión adversarial en la Evidencia de la spec"; fi
 else
   ko "C3-C8, C12, V1-V14 no se pudieron correr: sin servidor"
 fi

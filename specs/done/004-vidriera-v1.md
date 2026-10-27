@@ -1,5 +1,5 @@
 ---
-status: pendiente
+status: implementada
 depends_on: [003]
 ---
 
@@ -43,7 +43,7 @@ el logo a "VS" en toda la web.
 | V8 | El carrusel pasa solo | Playwright: el carrusel muestra las 3 ofertas que vencen hoy; la visible cambia sola en ≤ 4 s; las flechas la cambian a mano |
 | V9 | Mapa y ficha | Playwright: hay 8 puntos sobre el mapa; al tocar uno se abre la ficha con nombre, dirección, horario y `Abierto ahora` o `Cerrado ahora`; `Cerrar` y Escape la cierran y el foco vuelve a donde estaba. La forma de la zona es la de `mapa-zona.svg` (mismo `path` del contorno) |
 | V10 | Ningún WhatsApp lleva a un número real | `grep -rn "wa.me\|api.whatsapp" app lib` no devuelve nada; los botones "Escribile por WhatsApp" de los ejemplos no son links y la ficha muestra `387 4XX-XXXX (ejemplo)` |
-| V11 | Los llamados a sumarse van al formulario | "Publicá", "Publicá tu oferta" y "Sumá tu comercio" llevan a `/#formulario` y dejan elegido el tipo `comercio` |
+| V11 | Los llamados a sumarse van al formulario | "Publicá", "Publicá tu oferta" y "Sumá tu comercio" llevan a `/?tipo=comercio#formulario` (la landing, al formulario) y dejan elegido el tipo `comercio`; el formulario lee `?tipo=` y la landing con `?tipo=vecino` deja `vecino`, así el eval prueba que el parámetro es lo que elige |
 | V12 | Logo "VS" en toda la web | `curl /` y `curl /vidriera` contienen el logo con el texto `VS`; no queda el logo con "V" sola |
 | V13 | En celular, el encabezado va en una fila y no hay desborde | Playwright a 390 px en `/vidriera`: logo, buscador y "Publicá" con el mismo `top` (±4 px); `scrollWidth <= 390` |
 | V14 | La landing lleva a la vidriera | `curl /` contiene un link a `/vidriera` |
@@ -193,5 +193,21 @@ Desvíos respecto de la spec y del mock:
 - Se agregó un link "Ver la vidriera" al menú de la landing (V14).
 - V15 y V16 quedan pendientes: V15 es de Edu; V16 la corre la sesión supervisora.
 
-Revisión adversarial (V16): pendiente.
+Revisión adversarial (V16): hecha. La corrió la sesión supervisora con otro modelo (Sonnet); no encontró nada bloqueante. Hallazgos y destino:
+
+Corregidos (en el commit que cierra la rama, el último de `spec-004`):
+
+1. V11 no estaba implementado de verdad: `LeadForm` ya arrancaba en `comercio` y los links eran `/#formulario`. Ahora los tres llamados van a `/?tipo=comercio#formulario`, `LeadForm` lee `?tipo=` (solo `comercio` o `vecino`, lo demás se ignora) junto con `fuente`, y el eval prueba que la landing con `?tipo=vecino` queda en `vecino` (el valor por defecto no tapa nada), que el `href` de cada llamado lleva `tipo=comercio` y que al seguirlo queda `comercio`. Falla si el link no fija nada.
+2. Carrusel con 0 o 1 ofertas que vencen hoy: `Carrusel` ahora dibuja el bloque entero, con el rótulo "Vencen hoy · no te las pierdas". Con 0 no queda nada; con 1 muestra la tarjeta sin flechas ni puntitos. Cubierto por `app/vidriera/Carrusel.test.ts` (0, 1 y 3 ofertas), corrido en `run.sh` como V8.
+3. "Vence hoy" tenía dos reglas (`vence === 0` y `vence <= 0`). Ahora es una: `venceHoy`, `estaVigente` y `vigentes` en `lib/vidriera.ts`; una oferta con `vence < 0` está vencida y no se muestra (ni en contadores, filtros, carrusel, directorio ni ficha). Test con `vence: -1` en `lib/vidriera.test.ts` (prefijo V4).
+4. La grilla ya no es `aria-live`: el aviso en vivo es un texto corto con el conteo ("8 ofertas", "1 oferta", "Nada por acá, por ahora"), oculto a la vista. Chequeado en V7.
+
+Descartados, con su motivo:
+
+- La trampa de Tab con un solo elemento enfocable en la ficha: está documentada y es correcta hoy; se revisa cuando la ficha tenga un link real de WhatsApp.
+- Que la búsqueda mire también el texto de la nota de la oferta: lo permite la spec (el mock busca en producto, comercio, rubro y nota).
+- El refresco cada 60 s de "ahora": es lo que mantiene Abierto/Cerrado al día sin recargar y su costo es nulo.
+- El grep literal de V10: lo cubren el chequeo sobre el HTML renderizado (ningún `href` a WhatsApp) y el de Playwright (ningún botón navega).
+- Que V9 compare solo el contorno de la zona: es lo que pide la spec ("mismo `path` del contorno").
+- La circularidad de V1 (cuenta los chequeos previos de la misma corrida): aceptable, los previos son los chequeos de las specs anteriores.
 
