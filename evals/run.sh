@@ -238,7 +238,9 @@ if [ -d .next ] && start_server; then
   v12
   v_pw V13 v13 "a 390 px el encabezado va en una fila y no hay desborde"
   v14
-  pend "V15 rúbrica de Edu en Ready to Release (capturas: npm run capturas)"
+  if grep -q 'Ready to Release (V15): aprobada' specs/done/004-vidriera-v1.md 2>/dev/null; then
+    ok "V15 rúbrica de Edu aprobada en Ready to Release (Evidencia de specs/done/004-vidriera-v1.md)"
+  else pend "V15 rúbrica de Edu en Ready to Release (capturas: npm run capturas)"; fi
   if grep -q 'Revisión adversarial (V16): hecha' specs/done/004-vidriera-v1.md 2>/dev/null; then
     ok "V16 revisión adversarial hecha: hallazgos y su destino en la Evidencia de specs/done/004-vidriera-v1.md"
   else ko "V16 falta la revisión adversarial en la Evidencia de la spec"; fi

@@ -201,7 +201,7 @@ Desvíos respecto de la spec y del mock:
 - La ficha atrapa el foco (Tab) y el resto de la página queda `inert` mientras está abierta; el mock no lo hacía.
 - Antes de montarse (HTML estático) las etiquetas de 2 o más días dicen "Esta semana" y no se muestra Abierto/Cerrado; al montarse en el navegador se completan con la hora de Salta.
 - Se agregó un link "Ver la vidriera" al menú de la landing (V14).
-- V15 queda pendiente (es de Edu, en Ready to Release). V16 está hecha, abajo; su chequeo en `run.sh` pasa cuando esta sección dice "hecha".
+- Ready to Release (V15): aprobada por Edu el 2026-11-08, sí a los seis puntos de la rúbrica (a–f). V16 está hecha, abajo; su chequeo en `run.sh` pasa cuando esta sección dice "hecha".
 
 Revisión adversarial (V16): hecha. La corrió la sesión supervisora con otro modelo (Sonnet); no encontró nada bloqueante. Hallazgos y destino:
 
